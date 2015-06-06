@@ -7,7 +7,6 @@
 #'
 rawCorrelation <- function(file)
 {
-    library(ggplot2)
     data <- read.table(file, sep="\t",header = TRUE)
     dat <- data[-1]
 
