@@ -1,9 +1,11 @@
 #' plotCorrelation
 #'
-#' This function plot the raw correlation in a file: the file structure is - ID EXPERIMENTAL value  extimation value1   extimation value2   ..
+#' This function plot the raw correlation in a file: the file structure is:
+#   ID Object   EXPERIMENTAL-value  Predicted Value1    Predicted Value2    Predicted Value3   ..
 #'
 #' @param file the file to be analyzed
-plotCorrelation <- function(file)
+#'
+rawCorrelation <- function(file)
 {
     library(ggplot2)
     data <- read.table(file, sep="\t",header = TRUE)

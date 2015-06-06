@@ -1,10 +1,11 @@
-Package: PIManuscript
+Package: predictedAnlysis
 Type: Package
-Title: What the Package Does (Title Case)
+Title: This package provides functionalities to analyze different predictions of an experimental value
 Version: 0.1
 Date: 2015-06-05
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Author: Yasset Perez-Riverol
+Maintainer: Yasset Perez-Riverol <ypriverol@gmail.com>
 Description: More about what it does (maybe more than one line)
-License: What license is it under?
+License: Apache 2
+Imports: ggplot2
 LazyData: TRUE
