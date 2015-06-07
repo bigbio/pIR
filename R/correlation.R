@@ -8,7 +8,8 @@
 rawCorrelation <- function(file)
 {
     data <- read.table(file, sep="\t",header = TRUE)
-    dat <- data[-1]
+    dat  <- removeFirstColumn(data)
+    data <- processData(data)
 
     # Set color by cond
     ggplot(dat, aes(x=xvar, y=yvar, color=cond)) + geom_point(shape=1)
