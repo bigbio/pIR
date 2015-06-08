@@ -54,15 +54,46 @@ multiplot <- function(..., plotlist = NULL, file, cols = 1, layout = NULL) {
 #' plotHistFunc
 #'
 #' This function plots the histogram for each value of the datasets, it returns a set of plots
-#' @param x dataset frame or table
+#' @param data dataset frame or table
 #' @param na.rm ignore the null values
 #'
-plotHistFunc <- function(x, na.rm = TRUE, ...) {
-    nm <- names(x)
+plotHistFunc <- function(data, na.rm = TRUE, ...) {
+    nm <- names(data)
     plots <- list()  # new empty list
     for (i in seq_along(nm)) {
-        plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
+        plot <- ggplot(data, aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen") +
+                theme_bw() +
+                theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
         plots[[i]] <- plot  # add each plot into plot list
     }
     return (plots)
 }
+
+
+#' plotRawCorrelation
+#'
+#' This fucntion plots the raw correlation of all the predicted varaibles vs the expted variable (first column)
+#' @param data frame
+#'
+
+plotRawCorrelation <- function(dat){
+    nm <- names(dat)
+    plots <- list()  # new empty list
+    for (i in nm) {
+        newData <- data.frame(x = dat[1L], y = dat[i])
+        colnames(newData) <- c("x", "y")
+        #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
+        plot <- ggplot(newData, aes(x=x, y=y)) +
+            geom_point(shape=1, alpha = .5,size = 0.7, colour="mediumseagreen") +
+            scale_colour_hue(l=50) + # Use a slightly darker palette than normal
+            geom_smooth(method=lm, se=FALSE) + # Add shaded confidence region
+            xlab(nm[1L]) +
+            ylab(i) +
+            theme_bw() +
+            theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                  panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+        plots[[i]] <- plot  # add each plot into plot list
+    }
+    return (plots)
+}
+
