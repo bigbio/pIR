@@ -80,19 +80,21 @@ plotRawCorrelation <- function(dat){
     nm <- names(dat)
     plots <- list()  # new empty list
     for (i in nm) {
-        newData <- data.frame(x = dat[1L], y = dat[i])
-        colnames(newData) <- c("x", "y")
-        #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
-        plot <- ggplot(newData, aes(x=x, y=y)) +
-            geom_point(shape=1, alpha = .5,size = 1, colour="mediumseagreen") +
-            scale_colour_hue(l=50) + # Use a slightly darker palette than normal
-            geom_smooth(method=lm, se=FALSE) + # Add shaded confidence region
-            xlab(nm[1L]) +
-            ylab(i) +
-            theme_bw() +
-            theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                  panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
-        plots[[i]] <- plot  # add each plot into plot list
+        if(dat[1L] != data[i]){
+            newData <- data.frame(x = dat[1L], y = dat[i])
+            colnames(newData) <- c("x", "y")
+            #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
+            plot <- ggplot(newData, aes(x=x, y=y)) +
+                geom_point(shape=1, alpha = .5,size = 1, colour="mediumseagreen") +
+                scale_colour_hue(l=50) + # Use a slightly darker palette than normal
+                geom_smooth(method=lm, se=FALSE) + # Add shaded confidence region
+                xlab(nm[1L]) +
+                ylab(i) +
+                theme_bw() +
+                theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+            plots[[i]] <- plot  # add each plot into plot list
+        }
     }
     return (plots)
 }
@@ -106,20 +108,22 @@ plotRawCorrelation <- function(dat){
 plotBoxPlotCorrelation <- function(dat){
     nm <- names(dat)
     plots <- list()  # new empty list
-
     for (i in nm) {
-        newData <- data.frame(x = dat[1L], y = dat[i])
-        colnames(newData) <- c("x", "y")
-        #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
-        plot <- ggplot(newData, aes(x=x, y=y, group = x, color = x, alpha = 0.2)) +
-            geom_boxplot(outlier.shape = 1, outlier.size = 0.5, notch = FALSE, notchwidth = 0.5, outlier.colour = "black") +
-            xlab(nm[1L]) +
-            ylab(i) +
-            theme_bw() +
-            theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-                  panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
-        plots[[i]] <- plot  # add each plot into plot list
+        if(dat[1L] != data[i]){
+            newData <- data.frame(x = dat[1L], y = dat[i])
+            colnames(newData) <- c("x", "y")
+            #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
+            plot <- ggplot(newData, aes(x=x, y=y, group = x)) +
+                geom_boxplot(aes(colour=factor(x)), fill=NA, outlier.shape = 1, outlier.size = 0.2, outlier.colour = "black", show_guide=FALSE) +
+                xlab(nm[1L]) +
+                ylab(i) +
+                theme_bw() +
+                theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+            plots[[i]] <- plot  # add each plot into plot list
         }
+
+    }
     return (plots)
 }
 
