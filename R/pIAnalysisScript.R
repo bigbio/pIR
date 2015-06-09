@@ -10,4 +10,5 @@ dat  <- processData(dat)
 #plotData <- plotData + scale_x_discrete(name= "Experimental", breaks=breaks)
 #plotData  # add each plot into plot list
 
-#fullStats <- bindRMSECorrelation(dat, method = "pearson")
+fullStats <- bindRMSECorrelationFrame(dat, method = "pearson")
+
