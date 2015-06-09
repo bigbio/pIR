@@ -67,3 +67,10 @@ NULL
 NULL
 
 
+data(proteins)
+
+prot <- processData(proteins)
+prot <- removeFirstColumn(prot)
+
+#corrMatrix <- plotCorrelationMatrix(prot)
+#corrMatrix <- plotCorrelationMatrix(prot, filter = 0.9)

@@ -7,5 +7,5 @@ Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <ypriverol@gmail.com>
 Description: More about what it does (maybe more than one line)
 License: Apache 2
-Imports: ggplot2, grid, gridExtra, Hmisc, lsr
+Imports: ggplot2, grid, gridExtra, Hmisc, lsr, corrplot, caret
 LazyData: TRUE

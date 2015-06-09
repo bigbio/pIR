@@ -127,5 +127,24 @@ plotBoxPlotCorrelation <- function(dat){
     return (plots)
 }
 
+#' plotCorrelationMatrix
+#'
+#' This function plot the Correlation matrix between all the columns
+#' @param data DataFRame
+#'
+
+plotCorrelationMatrix <- function(data, filter = NULL){
+    datMy.scale<- scale(data); #scale all the features in the dataFRame
+    corMatMy <- cor(datMy.scale) #compute the correlation matrix
+    if(!is.null(filter)){
+        highlyCor <- findCorrelation(corMatMy, filter) #Apply correlation filter
+        datMyFiltered.scale <- datMy.scale[,-highlyCor] #then we remove all the variable correlated with more 0.7.
+        corMatMy <- cor(datMyFiltered.scale)
+        plot <- corrplot(corMatMy)
+    }else{
+        plot <- corrplot(corMatMy)  #visualize the matrix, clustering features by correlation index.
+    }
+    return (plot)
+}
 
 
