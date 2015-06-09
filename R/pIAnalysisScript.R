@@ -1,5 +1,5 @@
 
-data <- read.table("/Users/yperez/IdeaProjects/predictedAnalysis/data/Peptide-PI-Filtered.txt", sep="\t",header = TRUE)
+data <- read.table("/Users/yperez/IdeaProjects/predictedAnalysis/data/Protein-PI-Filtered.txt", sep="\t",header = TRUE)
 dat  <- removeFirstColumn(data)
 dat  <- processData(dat)
 
@@ -11,4 +11,4 @@ dat  <- processData(dat)
 #plotData  # add each plot into plot list
 
 fullStats <- bindRMSECorrelationFrame(dat, method = "pearson")
-
+fullStats
