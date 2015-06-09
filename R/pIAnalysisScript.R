@@ -10,13 +10,4 @@ dat  <- processData(dat)
 #plotData <- plotData + scale_x_discrete(name= "Experimental", breaks=breaks)
 #plotData  # add each plot into plot list
 
-corr <- computeCorrelationExperimental(dat, method = "pearson")
-rmseValue <- computeRMSEExperimental(dat)
-
-
-
-statsResults <- matrix(ncol = 3, nrow = ncol(rmseValue)+1)
-
-for( i in colnames(rmseValue)){
-}
-
+#fullStats <- bindRMSECorrelation(dat, method = "pearson")

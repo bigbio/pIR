@@ -43,7 +43,7 @@ computeCorrelationExperimental <- function(data, method = "pearson"){
     matrixValues <- computeCorrelationMatrix(data, method)
     values <- matrixValues$r[1,]
     values <- values[-1]
-    return (values)
+    return (tFrame(data.frame(values)))
 }
 
 #' rmse
@@ -77,4 +77,31 @@ computeRMSEExperimental <- function(data){
     }
     return (rmseValue)
 }
+
+#' bindRMSECorrelation
+#'
+#' This function bind the RMSE and correlation in one frame
+#'
+#' @param correlation
+#' @param RMSE
+
+bindRMSECorrelation <- function(rmse, corr){
+    total <- rbind(corr, rmse)
+    row.names(total) <- c("correlation", "RMSE")
+    return (total)
+}
+
+#' bindRMSECorrelationFrame
+#'
+#' This function bind the RMSE and correlation in one frame
+#'
+#' @param data
+#' @param method
+
+bindRMSECorrelationFrame <- function(data, method = "pearson"){
+    corr <- computeCorrelationExperimental(dat, method = "pearson")
+    rmseValue <- computeRMSEExperimental(dat)
+    return (bindRMSECorrelation(rmseValue, corr))
+}
+
 
