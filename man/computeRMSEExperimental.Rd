@@ -4,7 +4,7 @@
 \alias{computeRMSEExperimental}
 \title{computeRMSEExperimental}
 \usage{
-computeRMSEExperimental(data)
+computeRMSEExperimental(dat)
 }
 \arguments{
 \item{dat}{}

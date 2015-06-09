@@ -63,6 +63,7 @@ plotHistFunc <- function(data, na.rm = TRUE, ...) {
     for (i in seq_along(nm)) {
         plot <- ggplot(data, aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen") +
                 theme_bw() +
+                ylab("Number of Observations") +
                 theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
         plots[[i]] <- plot  # add each plot into plot list
     }
@@ -80,7 +81,7 @@ plotRawCorrelation <- function(dat){
     nm <- names(dat)
     plots <- list()  # new empty list
     for (i in nm) {
-        if(dat[1L] != data[i]){
+        if(dat[1L] != dat[i]){
             newData <- data.frame(x = dat[1L], y = dat[i])
             colnames(newData) <- c("x", "y")
             #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
@@ -109,10 +110,9 @@ plotBoxPlotCorrelation <- function(dat){
     nm <- names(dat)
     plots <- list()  # new empty list
     for (i in nm) {
-        if(dat[1L] != data[i]){
+        if(dat[1L] != dat[i]){
             newData <- data.frame(x = dat[1L], y = dat[i])
             colnames(newData) <- c("x", "y")
-            #plot <- ggplot(x,aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen")
             plot <- ggplot(newData, aes(x=x, y=y, group = x)) +
                 geom_boxplot(aes(colour=factor(x)), fill=NA, outlier.shape = 1, outlier.size = 0.2, outlier.colour = "black", show_guide=FALSE) +
                 xlab(nm[1L]) +
@@ -146,5 +146,7 @@ plotCorrelationMatrix <- function(data, filter = NULL){
     }
     return (plot)
 }
+
+
 
 

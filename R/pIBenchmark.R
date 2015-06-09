@@ -66,11 +66,61 @@ NULL
 #' @format A data frame with 1041 rows and 19 variables
 NULL
 
+#' pIBenchmark
+#'
+#' This function get the original file with peptides and proteins and do the complete benchmark. At the end it generates a file with all the comparison
+#'
+#' @param pepFile the peptide file
+#' @param protFile the protein file
 
-data(proteins)
+pIBenchmark <- function(pepFile, protFile){
+    # Read the data files
+    peptides <- read.table(file=pepFile, header = TRUE, sep = "\t")
+    proteins <- read.table(file=protFile, header = TRUE, sep = "\t")
 
-prot <- processData(proteins)
-prot <- removeFirstColumn(prot)
+    # Remove the empty values and other data, also remove the string data Proteins and Peptides
+    datPE <- removeFirstColumn(peptides)
+    datPR <- removeFirstColumn(proteins)
 
-#corrMatrix <- plotCorrelationMatrix(prot)
-#corrMatrix <- plotCorrelationMatrix(prot, filter = 0.9)
+    datPE <- processData(datPE)
+    datPR <- processData(datPR)
+
+    distributionPeptides <- plotHistFunc(datPE, na.rm = TRUE)
+    png("peptideDistributions.png", width = 1600, height = 1600)
+    multiplot(plotlist = distributionPeptides, cols=3)
+    dev.off()
+
+    distributionProteins <- plotHistFunc(datPR, na.rm = TRUE)
+    png("proteinsDistributions.png", width = 1600, height = 1600)
+    multiplot(plotlist = distributionPeptides, cols=3)
+    dev.off()
+
+    boxPlotCorrelationPeptides <- plotBoxPlotCorrelation(datPE)
+    png("peptideBoxPlotCorrelation.png", width = 1600, height = 1600)
+    multiplot(plotlist = boxPlotCorrelationPeptides, cols=3)
+    dev.off()
+
+    #    boxPlotCorrelationProteins <- plotBoxPlotCorrelation(datPR)
+    #    png("proteinBoxPlotCorrelation.png", width = 1600, height = 1600)
+    #   multiplot(plotlist = boxPlotCorrelationProteins, cols=3)
+    #   dev.off()
+
+    rawCorrelationPeptides <- plotRawCorrelation(datPE)
+    png("peptideRawCorrelation.png", width = 1600, height = 1600)
+    multiplot(plotlist = rawCorrelationPeptides, cols=3)
+    dev.off()
+
+    rawCorrelationProteins <- plotRawCorrelation(datPR)
+    png("proteinRawCorrelation.png", width = 1600, height = 1600)
+    multiplot(plotlist = rawCorrelationProteins, cols=3)
+    dev.off()
+
+    resultStatsPE <- bindRMSECorrelationFrame(datPE, method = "pearson")
+    write.csv(resultStatsPE, file = "peptideStats.csv")
+
+    resultStatsPR <- bindRMSECorrelationFrame(datPR, method = "pearson")
+    write.csv(resultStatsPR, file = "proteinStats.csv")
+
+}
+
+

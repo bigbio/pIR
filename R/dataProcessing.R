@@ -62,13 +62,13 @@ rmse <- function(expValue, predictValue){
 #' This function plot the RMSE experimental for all the predicted values
 #' @param dat
 
-computeRMSEExperimental <- function(data){
+computeRMSEExperimental <- function(dat){
     nm <- names(dat)
     rmseValue <- data.frame(matrix(ncol = ncol(dat), nrow = 1))
     colnames(rmseValue) <- nm
     rmseValue <- removeFirstColumn(rmseValue)
     for (i in nm) {
-        if(dat[1L] != data[i]){
+        if(dat[1L] != dat[i]){
             newData <- data.frame(x = dat[1L], y = dat[i])
             colnames(newData) <- c("x", "y")
             value <- rmse(newData$x, newData$y)
@@ -98,8 +98,8 @@ bindRMSECorrelation <- function(rmse, corr){
 #' @param data
 #' @param method
 
-bindRMSECorrelationFrame <- function(data, method = "pearson"){
-    corr <- computeCorrelationExperimental(dat, method = "pearson")
+bindRMSECorrelationFrame <- function(dat, method = "pearson"){
+    corr <- computeCorrelationExperimental(dat, method)
     rmseValue <- computeRMSEExperimental(dat)
     return (bindRMSECorrelation(rmseValue, corr))
 }

@@ -4,12 +4,12 @@
 \alias{bindRMSECorrelationFrame}
 \title{bindRMSECorrelationFrame}
 \usage{
-bindRMSECorrelationFrame(data, method = "pearson")
+bindRMSECorrelationFrame(dat, method = "pearson")
 }
 \arguments{
-\item{data}{}
-
 \item{method}{}
+
+\item{data}{}
 }
 \description{
 This function bind the RMSE and correlation in one frame
