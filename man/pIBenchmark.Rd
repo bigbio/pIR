@@ -4,12 +4,19 @@
 \alias{pIBenchmark}
 \title{pIBenchmark}
 \usage{
-pIBenchmark(pepFile, protFile, height = 800, with = 800, cols = 4)
+pIBenchmark(pepFile, protFile, height = 800, width = 800, cols = 3,
+  type = "pdf")
 }
 \arguments{
 \item{pepFile}{the peptide file}
 
 \item{protFile}{the protein file}
+
+\item{height}{}
+
+\item{width}{}
+
+\item{cols}{number of columns by chart}
 }
 \description{
 This function get the original file with peptides and proteins and do the complete benchmark. At the end it generates a file with all the comparison

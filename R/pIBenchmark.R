@@ -72,8 +72,11 @@ NULL
 #'
 #' @param pepFile the peptide file
 #' @param protFile the protein file
+#' @param height
+#' @param width
+#' @param cols  number of columns by chart
 
-pIBenchmark <- function(pepFile, protFile, height = 800, with = 800, cols = 4){
+pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3, type = "pdf"){
     # Read the data files
     peptides <- read.table(file=pepFile, header = TRUE, sep = "\t")
     proteins <- read.table(file=protFile, header = TRUE, sep = "\t")
@@ -86,32 +89,36 @@ pIBenchmark <- function(pepFile, protFile, height = 800, with = 800, cols = 4){
     datPR <- processData(datPR)
 
     distributionPeptides <- plotHistFunc(datPE, na.rm = TRUE)
-    png("peptideDistributions.png", width = with, height = height)
+    if(type == "png"){
+        png("peptideDistributions.png", width = width, height = height)
+    }else{
+        pdf("peptideDistributions.pdf", width = width, height = height)
+    }
     multiplot(plotlist = distributionPeptides, cols = cols)
     dev.off()
 
     distributionProteins <- plotHistFunc(datPR, na.rm = TRUE)
-    png("proteinsDistributions.png", width = with, height = height)
+    png("proteinsDistributions.png", width = width, height = height)
     multiplot(plotlist = distributionProteins, cols=cols)
     dev.off()
 
     boxPlotCorrelationPeptides <- plotBoxPlotCorrelation(datPE)
-    png("peptideBoxPlotCorrelation.png", width = with, height = height)
+    png("peptideBoxPlotCorrelation.png", width = width, height = height)
     multiplot(plotlist = boxPlotCorrelationPeptides, cols=cols)
     dev.off()
 
     #    boxPlotCorrelationProteins <- plotBoxPlotCorrelation(datPR)
-    #    png("proteinBoxPlotCorrelation.png", width = 1600, height = 1600)
-    #   multiplot(plotlist = boxPlotCorrelationProteins, cols=3)
-    #   dev.off()
+    #    png("proteinBoxPlotCorrelation.png", width = width, height = height)
+    #    multiplot(plotlist = boxPlotCorrelationProteins, cols=cols)
+    #    dev.off()
 
     rawCorrelationPeptides <- plotRawCorrelation(datPE)
-    png("peptideRawCorrelation.png", width = with, height = height)
+    png("peptideRawCorrelation.png", width = width, height = height)
     multiplot(plotlist = rawCorrelationPeptides, cols=cols)
     dev.off()
 
     rawCorrelationProteins <- plotRawCorrelation(datPR)
-    png("proteinRawCorrelation.png", width = with, height = height)
+    png("proteinRawCorrelation.png", width = width, height = height)
     multiplot(plotlist = rawCorrelationProteins, cols=cols)
     dev.off()
 

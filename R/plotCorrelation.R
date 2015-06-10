@@ -59,9 +59,12 @@ multiplot <- function(..., plotlist = NULL, file, cols = 1, layout = NULL) {
 #'
 plotHistFunc <- function(data, na.rm = TRUE, ...) {
     nm <- names(data)
+    #    breaks <- seq(from = 0, to = 14, by = 0.5)
+    #    print(breaks)
     plots <- list()  # new empty list
     for (i in seq_along(nm)) {
         plot <- ggplot(data, aes_string(x = nm[i])) + geom_histogram(alpha = .5,fill = "mediumseagreen") +
+                scale_x_continuous(limits=c(2.5, 11)) +
                 theme_bw() +
                 ylab("Number of Observations") +
                 theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
