@@ -128,11 +128,28 @@ pcharge <- function(pH, pk){
 loadPkSet <- function(pkSetMethod = "solomon"){
     pKValues <- c()
     if(pkSetMethod == "solomon"){
-        pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(2.4, 9.6,3.9,4.3,10.5,12.5,6.0,8.3,10.1))
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(9.6,2.4,8.3,3.9,4.3,6.0,10.5,12.5,10.1))
         colnames(pkValues) <- c("key", "value")
+
     }
     if(pkSetMethod == "rodwell"){
-        pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(3.10, 8.0,3.68,4.25,11.5, 11.5, 6.0, 8.33, 10.07))
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.1,8.33,3.68,4.25,6.0,11.5,11.5,10.07))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "emboss"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.6,3.6,8.5,3.9,4.1,6.5,10.8,12.5,10.1))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "lehninger"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(9.69,2.34,8.33,3.86,4.25,6.0,10.5,12.4,10.0))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "grimsley"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(7.7,3.3,6.8,3.5,4.2,6.6,10.5,12.04,10.3))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "patrickios"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(11.2,4.2,NA,4.2,4.2,NA,11.2,11.2,NA))
         colnames(pkValues) <- c("key", "value")
     }
     return (pkValues)
