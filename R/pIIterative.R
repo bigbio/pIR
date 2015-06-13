@@ -121,16 +121,13 @@ loadPkSet <- function(pkSetMethod = "solomon"){
 retrievePKValue <- function(aa, pKIterative){
     pkValue <- NA
     for(i in 1:nrow(pKIterative)){
-        print(pKIterative[i,"key"])
         if(pKIterative[i,"key"] == aa){
             pkValue <- pKIterative[i,"value"]
-            print(pKIterative[i,"value"])
         }
     }
-    print(pkValue)
     return (pkValue)
 }
 
-#pi <- pIIterative(sequence = "GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")
+pi <- pIIterative(sequence = "GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")
 
 
