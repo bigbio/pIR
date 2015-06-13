@@ -76,7 +76,7 @@ NULL
 #' @param width
 #' @param cols  number of columns by chart
 
-pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3, type = "pdf"){
+pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3){
     # Read the data files
     peptides <- read.table(file=pepFile, header = TRUE, sep = "\t")
     proteins <- read.table(file=protFile, header = TRUE, sep = "\t")
@@ -89,11 +89,7 @@ pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3, 
     datPR <- processData(datPR)
 
     distributionPeptides <- plotHistFunc(datPE, na.rm = TRUE)
-    if(type == "png"){
-        png("peptideDistributions.png", width = width, height = height)
-    }else{
-        pdf("peptideDistributions.pdf", width = width, height = height)
-    }
+    pdf("peptideDistributions.png", width = width, height = height)
     multiplot(plotlist = distributionPeptides, cols = cols)
     dev.off()
 
@@ -106,11 +102,6 @@ pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3, 
     png("peptideBoxPlotCorrelation.png", width = width, height = height)
     multiplot(plotlist = boxPlotCorrelationPeptides, cols=cols)
     dev.off()
-
-    #    boxPlotCorrelationProteins <- plotBoxPlotCorrelation(datPR)
-    #    png("proteinBoxPlotCorrelation.png", width = width, height = height)
-    #    multiplot(plotlist = boxPlotCorrelationProteins, cols=cols)
-    #    dev.off()
 
     rawCorrelationPeptides <- plotRawCorrelation(datPE)
     png("peptideRawCorrelation.png", width = width, height = height)

@@ -4,8 +4,7 @@
 \alias{pIBenchmark}
 \title{pIBenchmark}
 \usage{
-pIBenchmark(pepFile, protFile, height = 800, width = 800, cols = 3,
-  type = "pdf")
+pIBenchmark(pepFile, protFile, height = 800, width = 800, cols = 3)
 }
 \arguments{
 \item{pepFile}{the peptide file}

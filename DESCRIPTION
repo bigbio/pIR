@@ -1,11 +1,11 @@
-Package: pIBenchmark
+Package: pIR
 Type: Package
-Title: pIBenchmark: Comparative Benchmarking Methods Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino Acid Sequence.
+Title: pIR: Comparative Benchmarking Methods Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino Acid Sequence.
 Version: 0.1
 Date: 2015-06-05
 Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <ypriverol@gmail.com>
 Description: This package provides functionalities to analyze different predictions of isoelectric point and the corresponding experimental value peptides and proteins.
 License: Apache 2
-Imports: ggplot2, grid, gridExtra, Hmisc, lsr, corrplot, caret
+Imports: ggplot2, grid, gridExtra, Hmisc, lsr, corrplot, caret, testthat, hash
 LazyData: TRUE

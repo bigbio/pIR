@@ -1,7 +1,7 @@
-[pIBenchmark](https://github.com/ypriverol/pIBenchmark)
+[pIR](https://github.com/ypriverol/pIBenchmark)
 ======
 
-An [R package](https://github.com/ypriverol/pIBenchmark) to analyze the isoelectric point of peptides and proteins based on experimental values and predicted using different functions. The package provides an statistical framework to analyze the correlation between predicted and expeted values, and it can be use in other contexts.
+An [R package](https://github.com/ypriverol/pIR) to analyze the isoelectric point of peptides and proteins based on experimental values and predicted using different functions. The package provides an statistical framework to analyze the correlation between predicted and expeted values, and it can be use in other contexts.
 
 ### Installation  
 
@@ -14,6 +14,7 @@ Then we just call
 
     install_github("ypriverol/pIBenchmark")
     library(prideR)
+
 
 ### How to cite
 
