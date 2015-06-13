@@ -20,6 +20,7 @@ This function retrieve a pk dataset using the name of the pKSet
   \item patrickios : Patrickios, Costas S., and Edna N. Yamasaki. "Polypeptide amino acid composition and isoelectric point ii. comparison between experiment and theory." Analytical biochemistry 231.1 (1995): 82-91.
   \item grimsley   : Gerald R Grimsley, J Martin Scholtz and C Nick Pace. A summary of the measured pK values of the ionizable groups in folded proteins. Protein Sci. 2009 Jan; 18(1): 247–251.
   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
+  \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
 }
 \details{
 }

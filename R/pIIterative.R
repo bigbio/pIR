@@ -60,6 +60,26 @@ pIIterative <- function(sequence, pkSetMethod = "solomon"){
     return (pH)
 }
 
+#' computeAllPKValues
+#'
+#' This function compute the isoelectric point for all the pK sets
+#' @param seq
+#'
+
+computeAllPKValues <- function(seq){
+    solomon <- pIIterative(sequence = seq, pkSetMethod = "solomon")
+    rodwell <- pIIterative(sequence = seq, pkSetMethod = "rodwell")
+    emboss <- pIIterative(sequence = seq, pkSetMethod =  "emboss")
+    lehninger <- pIIterative(sequence = seq, pkSetMethod = "lehninger")
+    grimsley <- pIIterative(sequence = seq, pkSetMethod = "grimsley")
+    patrickios <- pIIterative(sequence = seq, pkSetMethod = "patrickios")
+    DtaSelect <- pIIterative(sequence = seq, pkSetMethod = "DtaSelect")
+
+    values <- data.frame(method=c("solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"), values=c(solomon, rodwell,emboss, lehninger, grimsley, patrickios,DtaSelect))
+    colnames(values) <- c("method", "values")
+    return(values)
+
+}
 #' chargeAtPH
 #'
 #' This fucntion compute the charge of the peptide using a pkset
@@ -119,6 +139,7 @@ pcharge <- function(pH, pk){
 #'   \item patrickios : Patrickios, Costas S., and Edna N. Yamasaki. "Polypeptide amino acid composition and isoelectric point ii. comparison between experiment and theory." Analytical biochemistry 231.1 (1995): 82-91.
 #'   \item grimsley   : Gerald R Grimsley, J Martin Scholtz and C Nick Pace. A summary of the measured pK values of the ionizable groups in folded proteins. Protein Sci. 2009 Jan; 18(1): 247–251.
 #'   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
+#'   \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
 #'
 #' }
 #'
@@ -149,7 +170,11 @@ loadPkSet <- function(pkSetMethod = "solomon"){
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSetMethod == "patrickios"){
-        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(11.2,4.2,NA,4.2,4.2,NA,11.2,11.2,NA))
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(11.2,4.2,0.0,4.2,4.2,0.0,11.2,11.2,0.0))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "DtaSelect"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.1,8.5,4.4,4.4,6.5,10.0,12.0,10.0))
         colnames(pkValues) <- c("key", "value")
     }
     return (pkValues)
@@ -181,6 +206,6 @@ specify_decimal <- function(x, k){
     return(format(round(x, k), nsmall=k))
 }
 
-pi <- pIIterative(sequence = "GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "rodwell")
+pi <- computeAllPKValues(seq = "GLPRKILCAIAKKKGKCKGPLKLVCKC")
 
 
