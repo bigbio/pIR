@@ -52,11 +52,11 @@ pIIterative <- function(sequence, pkSetMethod = "solomon"){
         this.step = this.step/2
         error <- abs(charge-lastCharge)
         lastCharge <- charge
-        if(error > gamma){
+        if(error < gamma){
             break;
         }
     }
-
+    pH <-specify_decimal(pH,3)
     return (pH)
 }
 
@@ -80,18 +80,19 @@ chargeAtPH <- function(sequence, pH = 7, pKIterative){
 
     charge <- charge + pcharge(pH, NTerm_Pk)
     charge <- charge - pcharge(CTerm_Pk,pH)
-
-    for (i in 0:nchar(sequence)){
-        aa<-c(factor(prot<-strsplit(toupper(sequence),"")[[1]], levels = LETTERS))
+    sequence <- toupper(sequence)
+    aaV <- strsplit(sequence, "", fixed = TRUE)
+    for (i in 1:nchar(sequence)){
+        aa <- aaV[[1]][i]
         if(any(AAAcid == aa) && !is.na(retrievePKValue(aa, pKIterative))){
             charge <- charge + pcharge(pH, retrievePKValue(aa, pKIterative))
         }
         if(any(AABasid == aa) && !is.na(retrievePKValue(aa, pKIterative))){
+
             charge = charge - pcharge(retrievePKValue(aa, pKIterative),pH)
         }
     }
     return (charge)
-
 }
 
 #' pcharge
@@ -101,7 +102,7 @@ chargeAtPH <- function(sequence, pH = 7, pKIterative){
 #' @param pk current pk
 
 pcharge <- function(pH, pk){
-    val <- 10^ (pH - pk)
+    val <- 10^(pH - pk)
     val <- 1/(1 + val)
     return (val)
 }
@@ -116,6 +117,10 @@ loadPkSet <- function(pkSetMethod = "solomon"){
     pKValues <- c()
     if(pkSetMethod == "solomon"){
         pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(2.4, 9.6,3.9,4.3,10.5,12.5,6.0,8.3,10.1))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "rodwell"){
+        pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(3.10, 8.0,3.68,4.25,11.5, 11.5, 6.0, 8.33, 10.07))
         colnames(pkValues) <- c("key", "value")
     }
     return (pkValues)
@@ -138,6 +143,15 @@ retrievePKValue <- function(aa, pKIterative){
     return (pkValue)
 }
 
-pi <- pIIterative(sequence = "GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")
+#' specify_decimal
+#'
+#' This function round a value to an specific decimal places
+#' @param x the double value
+#' @param k the decimal places
+specify_decimal <- function(x, k){
+    return(format(round(x, k), nsmall=k))
+}
+
+pi <- pIIterative(sequence = "GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "rodwell")
 
 
