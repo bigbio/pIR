@@ -100,12 +100,24 @@ pcharge <- function(pH, pk){
     return (val)
 }
 
-loadPkSet <- function(pkSetMethod){
-    pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(2.4, 9.6,3.9,4.3,10.5,12.5,6.0,8.3,10.1))
-    colnames(pkValues) <- c("key", "value")
+loadPkSet <- function(pkSetMethod = "solomon"){
+
+    pKValues <- c()
+    if(pkSetMethod == "solomon"){
+        pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(2.4, 9.6,3.9,4.3,10.5,12.5,6.0,8.3,10.1))
+        colnames(pkValues) <- c("key", "value")
+    }
+
     return (pkValues)
 }
 
+#' retrievePKValue
+#'
+#' This function retrieve the pK values for an specific aminoacid
+#'
+#' @param aminoacid
+#' @param pKIterative
+#'
 retrievePKValue <- function(aa, pKIterative){
     pkValue <- NA
     for(i in 1:nrow(pKIterative)){
