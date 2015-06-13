@@ -9,11 +9,11 @@ pIIterative(sequence, pkSetMethod = "solomon")
 \arguments{
 \item{sequence}{The amino acid sequence to be sue to compute the Isoelectric point}
 
-\item{pkSetMethod}{The pK set to be use from ()}
+\item{pkSetMethod}{The pK set to be used}
 }
 \description{
 This function compute the isoelectric point of a sequence using the Iterative method
-J Proteomics. 2012 Apr 3;75(7):2269-74. doi: 10.1016/j.jprot.2012.01.029. Epub 2012 Feb 3.
+Perez-Riverol et al. Isoelectric point optimization using peptide descriptors and support vector machines. J Proteomics. 2012 Apr 3;75(7):2269-74.
 }
 \examples{
 pIIterative(sequence="GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")

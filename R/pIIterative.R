@@ -25,10 +25,10 @@ NULL
 #' pIIterative
 #'
 #' This function compute the isoelectric point of a sequence using the Iterative method
-#' J Proteomics. 2012 Apr 3;75(7):2269-74. doi: 10.1016/j.jprot.2012.01.029. Epub 2012 Feb 3.
+#' Perez-Riverol et al. Isoelectric point optimization using peptide descriptors and support vector machines. J Proteomics. 2012 Apr 3;75(7):2269-74.
 #'
 #' @param sequence The amino acid sequence to be sue to compute the Isoelectric point
-#' @param pkSetMethod The pK set to be use from ()
+#' @param pkSetMethod The pK set to be used
 #'
 #' @examples
 #' pIIterative(sequence="GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")
@@ -142,7 +142,6 @@ pcharge <- function(pH, pk){
 #'   \item grimsley   : Gerald R Grimsley, J Martin Scholtz and C Nick Pace. A summary of the measured pK values of the ionizable groups in folded proteins. Protein Sci. 2009 Jan; 18(1): 247–251.
 #'   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
 #'   \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
-#'
 #' }
 #'
 #' @param pkSetMethod name of the pk
@@ -188,7 +187,7 @@ loadPkSet <- function(pkSetMethod = "solomon"){
 #'
 #' @param aminoacid
 #' @param pKIterative
-#'
+
 retrievePKValue <- function(aa, pKIterative){
     pkValue <- NA
     for(i in 1:nrow(pKIterative)){
@@ -204,6 +203,7 @@ retrievePKValue <- function(aa, pKIterative){
 #' This function round a value to an specific decimal places
 #' @param x the double value
 #' @param k the decimal places
+
 specify_decimal <- function(x, k){
     return(format(round(x, k), nsmall=k))
 }

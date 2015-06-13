@@ -22,7 +22,5 @@ This function retrieve a pk dataset using the name of the pKSet
   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
   \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
 }
-\details{
-}
 }
 
