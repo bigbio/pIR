@@ -94,20 +94,30 @@ chargeAtPH <- function(sequence, pH = 7, pKIterative){
 
 }
 
+#' pcharge
+#'
+#' This pcharge function computhe the charge
+#' @param pH current pH
+#' @param pk current pk
+
 pcharge <- function(pH, pk){
     val <- 10^ (pH - pk)
     val <- 1/(1 + val)
     return (val)
 }
 
-loadPkSet <- function(pkSetMethod = "solomon"){
+#' loadPkSet
+#'
+#' This function retrieve a pk dataset using the name of the pKSet
+#' @param pkSetMethod name of the pk
+#'
 
+loadPkSet <- function(pkSetMethod = "solomon"){
     pKValues <- c()
     if(pkSetMethod == "solomon"){
         pkValues <- data.frame(key=c("CTerm", "NTerm", "D", "E", "K", "R", "H", "C", "Y"), c(2.4, 9.6,3.9,4.3,10.5,12.5,6.0,8.3,10.1))
         colnames(pkValues) <- c("key", "value")
     }
-
     return (pkValues)
 }
 
