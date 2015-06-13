@@ -1,6 +1,6 @@
 #' pIIterativePK
 #'
-#' This data contains all the pk For the iterative method using different methods
+#' This data contains all the pk For the iterative method using different methods "solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"
 #'
 #' The variables are as follows:
 #'
@@ -27,9 +27,11 @@ NULL
 #' This function compute the isoelectric point of a sequence using the Iterative method
 #' J Proteomics. 2012 Apr 3;75(7):2269-74. doi: 10.1016/j.jprot.2012.01.029. Epub 2012 Feb 3.
 #'
-#' @param sequence the amino acid sequence
-#' @param paramter
+#' @param sequence The amino acid sequence to be sue to compute the Isoelectric point
+#' @param pkSetMethod The pK set to be use from ()
 #'
+#' @examples
+#' pIIterative(sequence="GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")
 #'
 
 pIIterative <- function(sequence, pkSetMethod = "solomon"){
@@ -205,7 +207,5 @@ retrievePKValue <- function(aa, pKIterative){
 specify_decimal <- function(x, k){
     return(format(round(x, k), nsmall=k))
 }
-
-pi <- computeAllPKValues(seq = "GLPRKILCAIAKKKGKCKGPLKLVCKC")
 
 

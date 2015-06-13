@@ -9,7 +9,7 @@
 data(pIIterativePK)
 }
 \description{
-This data contains all the pk For the iterative method using different methods
+This data contains all the pk For the iterative method using different methods "solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"
 }
 \details{
 The variables are as follows:
