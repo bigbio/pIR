@@ -7,7 +7,16 @@ Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <ypriverol@gmail.com>
 Description: This package provides functionalities to analyze different predictions of isoelectric point and the corresponding experimental value peptides and proteins.
 License: Apache 2
-Imports: ggplot2, grid, gridExtra, Hmisc, lsr, corrplot, caret, testthat, hash
+Imports: ggplot2,
+         grid,
+         gridExtra,
+         Hmisc,
+         lsr,
+         corrplot,
+         caret,
+Suggests:
+    testthat,
+    knitr
 LazyData: TRUE
 URL: http://github.com/ypriverol/pIR
 BugReports: http://github.com/ypriverol/pIR/issues
