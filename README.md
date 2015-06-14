@@ -17,6 +17,20 @@ Then we just call
     install_github("ypriverol/pIBenchmark")
     library(prideR)
 
+##Examples
+=================
+
+```R
+ seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+
+pI <- pIIterative(sequence = seq, pkSetMethod = "solomon")
+print(pI)
+
+#The result will be 10.526
+
+# Other different pKSets that can be selected: rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect
+
+```
 
 ### How to cite
 
