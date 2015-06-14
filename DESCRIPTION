@@ -9,3 +9,7 @@ Description: This package provides functionalities to analyze different predicti
 License: Apache 2
 Imports: ggplot2, grid, gridExtra, Hmisc, lsr, corrplot, caret, testthat, hash
 LazyData: TRUE
+URL: http://github.com/ypriverol/pIR
+BugReports: http://github.com/ypriverol/pIR/issues
+biocViews: Proteomics, Protein, Peptides, IsoelectricPoint, MassSpectrometry,DataImport
+VignetteBuilder: knitr
