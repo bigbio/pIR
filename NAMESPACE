@@ -6,5 +6,4 @@ import(Hmisc)
 import(lsr)
 import(corrplot)
 import(caret)
-import(hash)
 

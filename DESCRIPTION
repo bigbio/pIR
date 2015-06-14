@@ -21,4 +21,3 @@ LazyData: TRUE
 URL: http://github.com/ypriverol/pIR
 BugReports: http://github.com/ypriverol/pIR/issues
 biocViews: Proteomics, Protein, Peptides, IsoelectricPoint, MassSpectrometry,DataImport
-
