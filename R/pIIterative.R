@@ -62,13 +62,13 @@ pIIterative <- function(sequence, pkSetMethod = "solomon"){
     return (pH)
 }
 
-#' computeAllPKValues
+#' computeAllIterativeValues
 #'
 #' This function compute the isoelectric point for all the pK sets
 #' @param seq
 #'
 
-computeAllPKValues <- function(seq){
+computeAllIterativeValues <- function(seq){
     solomon <- pIIterative(sequence = seq, pkSetMethod = "solomon")
     rodwell <- pIIterative(sequence = seq, pkSetMethod = "rodwell")
     emboss <- pIIterative(sequence = seq, pkSetMethod =  "emboss")

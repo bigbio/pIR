@@ -1,3 +1,19 @@
+#' computeAllBjellValues
+#'
+#' This function compute the isoelectric point for all the pK sets
+#' @param seq
+#'
+
+computeAllBjellValues <- function(seq){
+    expasy     <- pIBjell(sequence = seq, pkSetMethod = "expasy")
+    skoog      <- pIBjell(sequence = seq, pkSetMethod = "skoog")
+    calibrated <- pIBjell(sequence = seq, pkSetMethod =  "calibrated")
+    bjell      <- pIBjell(sequence = seq, pkSetMethod = "bjell")
+    values <- data.frame(method=c("expasy", "skoog","calibrated", "bjell"), values=c(expasy, skoog, calibrated,bjell))
+    colnames(values) <- c("method", "values")
+    return(values)
+
+}
 
 #' pIBjell
 #'
@@ -11,13 +27,9 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
     this.pH = -1.0
 
     NtermPK <- loadNTermPK(pkSet = pkSetMethod)
-    print(NtermPK)
-
     CtermPK <- loadCTermPK(pkSet= pkSetMethod)
-    print(CtermPK)
-
     GroupPK <- loadGroupPK(pkSet = pkSetMethod)
-    print(GroupPK)
+
 
     # This algorithm used this strategy: Take an of step = 0.5 and make a loop while
     # the charge of the SequenceAA was >= 0.0 then take the last value of the charge and the last
