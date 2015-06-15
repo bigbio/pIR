@@ -1,3 +1,4 @@
 library(testthat)
-test_dir("tests")
+library(pIR)
+test_check("pIR")
 
