@@ -1,0 +1,25 @@
+\begin{thebibliography}{1}
+
+\bibitem{perez2012}
+Yasset Perez-Riverol, Enrique Audain, Aleli Millan, Yassel Ramos, Aniel
+  Sanchez, Juan~Antonio Vizca{\'\i}no, Rui Wang, Markus M{\"u}ller, Yoan~J
+  Machado, Lazaro~H Betancourt, et~al.
+\newblock Isoelectric point optimization using peptide descriptors and support
+  vector machines.
+\newblock {\em Journal of proteomics}, 75(7):2269--2274, 2012.
+
+\bibitem{cargile2008}
+Benjamin~J Cargile, Joel~R Sevinsky, Amal~S Essader, Jerry~P Eu, and James~L
+  Stephenson.
+\newblock Calculation of the isoelectric point of tryptic peptides in the ph
+  3.5--4.5 range based on adjacent amino acid effects.
+\newblock {\em Electrophoresis}, 29(13):2768--2778, 2008.
+
+\bibitem{bjellqvist1993}
+Bengt Bjellqvist, Graham~J Hughes, Christian Pasquali, Nicole Paquet, Florence
+  Ravier, Jean-Charles Sanchez, S{\'e}verine Frutiger, and Denis Hochstrasser.
+\newblock The focusing positions of polypeptides in immobilized ph gradients
+  can be predicted from their amino acid sequences.
+\newblock {\em Electrophoresis}, 14(1):1023--1031, 1993.
+
+\end{thebibliography}
