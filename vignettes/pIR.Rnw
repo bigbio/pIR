@@ -91,6 +91,60 @@ grimsley       & 7.7 & 3.3 & 6.8 & 3.5 & 4.2 & 6.6 & 10.5 & 12.04 & 10.3    \\ \
   pI.value
  # 10.526
 
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  rodwell method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "rodwell")
+  pI.value
+ # 11.404
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  emboss method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "emboss")
+  pI.value
+ # 10.801
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  lehninger method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "lehninger")
+  pI.value
+ # 10.530
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  grimsley method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "grimsley")
+  pI.value
+ # 10.495
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  patrickios method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "patrickios")
+  pI.value
+ # 11.200
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  DtaSelect method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "DtaSelect")
+  pI.value
+ # 10.025
+
 \end{verbatim}
 
 \subsection{Bjellqvist Method}
