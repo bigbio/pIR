@@ -23,59 +23,33 @@ computeAllBjellValues <- function(seq){
 #'
 pIBjell <- function(sequence, pkSetMethod = "expasy"){
 
-    piInt = 0.5
-    this.pH = -1.0
-
     NtermPK <- loadNTermPK(pkSet = pkSetMethod)
     CtermPK <- loadCTermPK(pkSet= pkSetMethod)
     GroupPK <- loadGroupPK(pkSet = pkSetMethod)
 
+    pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
+    # Average protein pI is 6.5 so we increase the probability.
+    lastCharge <- 0
+    gamma      <- 0.00001
+    this.step = 3.5
 
-    # This algorithm used this strategy: Take an of step = 0.5 and make a loop while
-    # the charge of the SequenceAA was >= 0.0 then take the last value of the charge and the last
-    # value of ph to make an exaustive step with and step of 0.0001.
-
-    repeat{
-        if (getcharge(sequence = sequence, NTermPK = NtermPK, CTermPK = CtermPK, GroupPK = GroupPK, pH = this.pH) < 0.0){
-            break
-            }
-        this.pH = this.pH + piInt
-        if (this.pH > 14.0){
-                break
+    repeat {
+        charge <- getcharge(sequence = sequence, NTermPK = NtermPK, CTermPK = CtermPK, GroupPK = GroupPK, pH = pH)
+        if( charge > 0){
+            pH <- pH + this.step
+        }else{
+            pH <- pH - this.step
         }
+        this.step = this.step/2
+        error <- abs(charge-lastCharge)
+        lastCharge <- charge
+        if(error < gamma){
+            break;
         }
-
-    this.pH = this.pH - piInt;
-    piInt = 0.001
-
-    # Take a short step to compute the pI in this range.
-    # This algorithm is very exaustive because the error
-    # in the algorithm is in the 3t decimal of the number.
-
-    pIActual = 0.0;
-
-    repeat{
-        pIActual = getcharge(sequence = sequence, NTermPK = NtermPK, CTermPK = CtermPK, GroupPK = GroupPK, pH = this.pH);
-        if (pIActual < 0.0){
-            this.pH = this.pH - piInt
-            break
-            }
-        this.pH = this.pH + piInt
-
-        if(this.pH > 14.0){
-            break
-        }
-        }
-
-    if (pIActual >= 0.0) this.pH = 100.001;
-
-    # this is an unreal value.
-
-    pHround = round(this.pH * 100.0)
-
-    this.pH = -1.0
-
-    return (pHround / 100.0)
+    }
+    pH <-specify_decimal(pH,3)
+    print(pH)
+    return (pH)
 }
 
 
