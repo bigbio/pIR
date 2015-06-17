@@ -49,62 +49,61 @@ GetPIValuesForAABjellvist <- function(LL, Old_PI, position, last, sequence){
 
     if (LL == "C"){
         if (position == 1){
-            result <- 1.0 / (1.0 + (10^(8.0 - Old_PI)))
+            result = 1.0 / (1.0 + (10^(8.0 - Old_PI)))
         }else if (position == last){
-            result <- 1.0 / (1.0 + (10^(9.0 - Old_PI)))
+            result = 1.0 / (1.0 + (10^(9.0 - Old_PI)))
         }else{
-            result <- 1.0 / (1.0 + (10^(8.28 -Old_PI)))
+            result = 1.0 / (1.0 + (10^(8.28 -Old_PI)))
         }
     }
 
     if (LL == "D"){
-        return 1.0 / (1.0 + (10^(3.945 + GetComplexPIValue(LL, position, last,sequence) - Old_PI)));
+        result = 1.0 / (1.0 + (10^(3.945 + GetComplexPIValue(LL, position, last,sequence) - Old_PI)))
     }
 
     if (LL == "E"){
-        return 1.0 / (1.0 + (10^(4.38 + GetComplexPIValue(LL, position, last, sequence) - Old_PI)));
+        result = 1.0 / (1.0 + (10^(4.38 + GetComplexPIValue(LL, position, last, sequence) - Old_PI)))
     }
 
     if (LL == "Y"){
         if (position == 1){
-            return 1.0 / (1.0 + (10^ (9.84 - Old_PI)));
+            result = 1.0 / (1.0 + (10^ (9.84 - Old_PI)))
         }else if (position == last){
-            return 1.0 / (1.0 + (10^(10.34 - Old_PI)));
+            result = 1.0 / (1.0 + (10^(10.34 - Old_PI)))
         }else{
-            return 1.0 / (1.0 + (10^(9.84 - Old_PI)));
+            result = 1.0 / (1.0 + (10^(9.84 - Old_PI)))
         }
     }
 
     if (LL == "H"){
         if (position == 1){
-            return -1.0 / (1.0 + (10^(Old_PI - 4.96)));
+            result = -1.0 / (1.0 + (10^(Old_PI - 4.96)))
         }else if (position == last){
-            return -1.0 / (1.0 + (10^ (Old_PI - 6.89)));
+            result = -1.0 / (1.0 + (10^ (Old_PI - 6.89)))
         }else{
-            return -1.0 / (1.0 + (10^(Old_PI - pIAdjust_H)));
+            result = -1.0 / (1.0 + (10^(Old_PI - pIAdjust_H)))
         }
     }
 
     if (LL == "K"){
         if (position == 1){
-            return -1.0 / (1.0 + (10^ (Old_PI - 10.3)));
+            result = (-1.0 / (1.0 + (10^ (Old_PI - 10.3))))
         }else if (position == last){
-            return -1.0 / (1.0 + (10^(Old_PI - 10.3)));
+            rresult = (-1.0 / (1.0 + (10^(Old_PI - 10.3))))
         }else{
-            return -1.0 / (1.0 + (10^(Old_PI - 9.8)));
+            result = (-1.0 / (1.0 + (10^(Old_PI - 9.8))))
         }
     }
 
     if (LL == "R"){
         if (position == 1){
-            result <- ((-1.0)/(1.0 + (10^(Old_PI - 10.8))))
+            result = ((-1.0)/(1.0 + (10^(Old_PI - 10.8))))
         }else if (position == last){
-            result <- ((-1.0)/(1.0 + (10^ (Old_PI - 10.8))))
+            result = ((-1.0)/(1.0 + (10^ (Old_PI - 10.8))))
         }else{
-            result <- (-1.0/(1.0 + (10^(Old_PI - 12.0))))
+            result = (-1.0/(1.0 + (10^(Old_PI - 12.0))))
         }
     }
-
     return (result)
 }
 
