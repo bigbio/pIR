@@ -12,7 +12,7 @@ svmPI <- function(seq){
 # This fucntion acces to the data to trace train the SVM method
 
 defaultTrainData <- function(){
-    filePath <- system.file("extdata", "svmDataShort.csv", package = "pIR")
+    filePath <- system.file("extdata", "svmData.csv", package = "pIR")
     data <- read.table(file = filePath, sep = ",", header = TRUE)
     return(data)
 }
@@ -58,8 +58,43 @@ svmPIDefault <- function(){
         return (zimmerman)
     })
     colnames(data) <-c("peptide", "pIExp", "bjell", "aaIndex")
-    print(data)
-    return(data)
+
+    peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
+    peptides_experimental <- subset(data, select=c("pIExp"))
+    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
+
+    return(svmProfile)
+}
+
+svmProfile <- function(dfExp, dfProp){
+
+    #load Data
+    # This is the data file with the descriptors:
+    peptides_desc <- as.matrix(dfProp);
+    # This is the Data File with the Experimental Isoelectric Point
+    peptides_class<-as.matrix(dfExp);
+
+    #Scale and center data
+    peptides_desc<- scale(peptides_desc,center=TRUE,scale=TRUE);
+
+    #Divide the dataset in train and test sets
+
+    # Create an index of the number to train
+    inTrain <- createDataPartition(peptides_class, p = 3/4, list = FALSE);
+
+    #Create the Training Dataset for Descriptors
+    trainDescr <- peptides_desc[inTrain,];
+
+    # Create the Testing dataset for Descriptors
+    testDescr <- peptides_desc[-inTrain,];
+
+    trainClass <- peptides_class[inTrain];
+    testClass <- peptides_class[-inTrain];
+
+    #Support Vector Machine Object
+    svmProfileValue <- rfe(x=trainDescr, y = trainClass, sizes = c(1:5),rfeControl = rfeControl(functions = caretFuncs,number = 2),method = "svmRadial",fit = FALSE);
+
+    return (svmProfileValue)
 }
 
 #'aaIndex
