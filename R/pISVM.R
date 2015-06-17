@@ -59,6 +59,8 @@ svmPIDefault <- function(){
     })
     colnames(data) <-c("peptide", "pIExp", "bjell", "aaIndex")
 
+    save(data,file="svmData.rda")
+
     peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
     peptides_experimental <- subset(data, select=c("pIExp"))
     svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
@@ -134,5 +136,3 @@ aaIndex <- function(sequence){
     zimmerman = zimmerman/count
     return (zimmerman)
 }
-
-
