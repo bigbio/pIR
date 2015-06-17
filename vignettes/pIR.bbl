@@ -8,18 +8,18 @@ Yasset Perez-Riverol, Enrique Audain, Aleli Millan, Yassel Ramos, Aniel
   vector machines.
 \newblock {\em Journal of proteomics}, 75(7):2269--2274, 2012.
 
-\bibitem{cargile2008}
-Benjamin~J Cargile, Joel~R Sevinsky, Amal~S Essader, Jerry~P Eu, and James~L
-  Stephenson.
-\newblock Calculation of the isoelectric point of tryptic peptides in the ph
-  3.5--4.5 range based on adjacent amino acid effects.
-\newblock {\em Electrophoresis}, 29(13):2768--2778, 2008.
-
 \bibitem{bjellqvist1993}
 Bengt Bjellqvist, Graham~J Hughes, Christian Pasquali, Nicole Paquet, Florence
   Ravier, Jean-Charles Sanchez, S{\'e}verine Frutiger, and Denis Hochstrasser.
 \newblock The focusing positions of polypeptides in immobilized ph gradients
   can be predicted from their amino acid sequences.
 \newblock {\em Electrophoresis}, 14(1):1023--1031, 1993.
+
+\bibitem{gauci2008}
+Sharon Gauci, Bas Van~Breukelen, Simone~M Lemeer, Jeroen Krijgsveld, and
+  Albert~JR Heck.
+\newblock A versatile peptide pi calculator for phosphorylated and n-terminal
+  acetylated peptides experimentally tested using peptide isoelectric focusing.
+\newblock {\em Proteomics}, 8(23-24):4898--4906, 2008.
 
 \end{thebibliography}

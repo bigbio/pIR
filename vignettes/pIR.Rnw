@@ -25,7 +25,7 @@ BiocStyle::latex()
 \vskip 0.3in minus 0.1in
 \hrule
 \begin{abstract}
-   Accurate estimation of the isoelectric point value (pI) based on the amino acid sequence becomes critical to perform proteomics experiments. Also, it is one of the most useful electrostatic properties to study peptides and proteins. Different methods has been proposed to compute the theoretical isoelectric point of peptides and proteins using several pK sets \cite{perez2012, cargile2008, bjellqvist1993}. This vignette provides a brief overview of the available interface and functionality as well as a short use case.
+   Accurate estimation of the isoelectric point value (pI) based on the amino acid sequence becomes critical to perform proteomics experiments. Also, it is one of the most useful electrostatic properties to study peptides and proteins. Different methods has been proposed to compute the theoretical isoelectric point of peptides and proteins using several pK sets \cite{perez2012, bjellqvist1993}. This vignette provides a brief overview of the available interface and functionality as well as a short use case.
 \end{abstract}
 
 \textit{Keywords}: proteomics, peptides, proteins, electrophoresis, mass spectrometry, isoelectric point, tutorial.
@@ -147,8 +147,85 @@ grimsley       & 7.7 & 3.3 & 6.8 & 3.5 & 4.2 & 6.6 & 10.5 & 12.04 & 10.3    \\ \
 
 \end{verbatim}
 
+\subsubsection{Compute pI using all the pk sets}
+
+\begin{verbatim}
+  # compute the isoelectric point using  all pK sets
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pIValue <- computeAllIterativeValues(seq = seq)
+  pIValue
+  #       method values
+  # 1    solomon 10.526
+  # 2    rodwell 11.404
+  # 3     emboss 10.801
+  # 4  lehninger 10.530
+  # 5   grimsley 10.495
+  # 6 patrickios 11.200
+  # 7  DtaSelect 10.025
+
+\end{verbatim}
+
 \subsection{Bjellqvist Method}
-\subsection{Co-factor Method}
+
+The Bjellquivst method \cite{bjellqvist1993} is based on the determination of the pK differences between closely related amino acids, and it was the first algorithm that proposed a different pKa value depending on the amino acid position in the sequence. The current version of the pIR supports four different pKsets: \textbf{bjell} \cite{bjellqvist1993},  \textbf{calibrated} \cite{gauci2008}, \textbf{skoog} and \textbf{expasy} \url{http://expasy.org/}
+
+\subsubsection{Calculate isoelectric point}
+
+\begin{verbatim}
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  bjell pk set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "bjell")
+  pI.value
+ # 3.04
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  calibrated pk set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "calibrated")
+  pI.value
+ # 4.09
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  skoog pk Set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "skoog")
+  pI.value
+ # 2.93
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  expasy pK set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "expasy")
+  pI.value
+ # 4.09
+
+\end{verbatim}
+
+\subsubsection{Compute pI using all the pk sets}
+
+\begin{verbatim}
+   # compute the isoelectric point using all the pK sets
+   seq <- "AGAAPYVQAFDSLLAGPVAE"
+   pIValue <- computeAllBjellValues(seq = seq)
+   pIValue
+   # method values
+   #1     expasy   4.09
+   #2      skoog   2.93
+   #3 calibrated   4.09
+   #4      bjell   3.04
+\end{verbatim}
+
 \subsection{SVM Method}
 
 

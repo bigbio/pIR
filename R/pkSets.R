@@ -59,7 +59,6 @@ loadPkSetIterative <- function(pkSetMethod = "solomon"){
 
 loadNTermPK <- function(pkSet = "expasy"){
     pkValues <- c()
-    print(pkSet)
     if(pkSet == "expasy"){
         pkValues <- data.frame(key=c("A",  "R", "N", "D", "C", "E", "Q", "G", "H", "I", "L", "K", "M", "F", "P",               "S",  "T",  "W", "Y", "V"),c( 7.59, 7.5, 7.5, 7.5, 7.5, 7.7, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.0, 7.5, 8.359999999999999, 6.93, 6.82, 7.5, 7.5, 7.44))
         colnames(pkValues) <- c("key", "value")

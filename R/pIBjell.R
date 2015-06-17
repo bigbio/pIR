@@ -130,6 +130,3 @@ getcharge <- function (sequence, NTermPK, CTermPK, GroupPK, pH){
     return (this.FoRmU)
 }
 
-
-#pi < - pIBjell(sequence = seq, pkSetMethod = "expasy")
-
