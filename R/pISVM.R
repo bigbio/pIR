@@ -1,18 +1,21 @@
-#' svmPI
-#'
-#' This function compute the isoelectric point usig support vector machines
-#'
-#' @param df data frame where the first column is the peptde sequence and the second column the experimental
-#'
 svmPI <- function(seq){
 
 }
 
 # dafaultTrainData
-# This fucntion acces to the data to trace train the SVM method
+# This function acces to the data to trace train the SVM method
 
-defaultTrainData <- function(){
-    filePath <- system.file("extdata", "svmData.csv", package = "pIR")
+defaultPeptideTrainData <- function(){
+    filePath <- system.file("extdata", "svmPeptideData.csv", package = "pIR")
+    data <- read.table(file = filePath, sep = ",", header = TRUE)
+    return(data)
+}
+
+# dafaultTrainData
+# This function acces to the data to trace train the SVM method
+
+defaultProteinTrainData <- function(){
+    filePath <- system.file("extdata", "svmProteinData.csv", package = "pIR")
     data <- read.table(file = filePath, sep = ",", header = TRUE)
     return(data)
 }
@@ -21,13 +24,73 @@ defaultTrainData <- function(){
 #
 # This function train the original dataset from the SVM dataset a get the model
 
-svmPIDefault <- function(){
-    data <- defaultTrainData()
-    data <- mdply(data, function(peptide, pIExp) { pIBjell(sequence = peptide, pkSetMethod = "bjell") })
-    colnames(data) <-c("peptide", "pIExp", "bjell")
-    data <- mdply(data, function(peptide, pIExp, bjell){
+svmBuildPeptideData <- function(){
+    data <- defaultPeptideTrainData()
+    data <- svmPIBuildSVM(originalData = data)
+    save(data,file="data/svmPeptideData.rda")
+    peptides_propeties <- subset(data, select=c("bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "aaindex"))
+    peptides_experimental <- subset(data, select=c("pIExp"))
+    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
+    return(svmProfileValue)
+}
 
-        sequence <- toupper(peptide)
+svmBuildProteinData <- function(){
+    data <- defaultProteinTrainData()
+    data <- svmPIBuildSVM(originalData = data)
+    save(data,file="data/svmProteinData.rda")
+    peptides_propeties <- subset(data, select=c("bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "aaindex"))
+    peptides_experimental <- subset(data, select=c("pIExp"))
+    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
+    return(svmProfile)
+}
+
+
+#' svmPIBuildSVMData
+#'
+#' This function take a data frame in the way of: sequence pIExp
+#' @param originalData The original dra frame
+#'
+svmPIBuildSVM <- function(originalData){
+    data <- originalData
+
+    #Add all the bjell methods and pk Sets
+    data <- mdply(data, function(sequence, pIExp) { pIBjell(sequence = sequence, pkSetMethod = "bjell") })
+    colnames(data) <-c("sequence", "pIExp", "bjell")
+
+    data <- mdply(data, function(sequence, pIExp, bjell) { pIBjell(sequence = sequence, pkSetMethod = "expasy") })
+    colnames(data) <-c("sequence", "pIExp","bejell", "expasy")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy) { pIBjell(sequence = sequence, pkSetMethod = "skoog") })
+    colnames(data) <-c("sequence", "pIExp", "bejell","expasy", "skoog")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog) { pIBjell(sequence = sequence, pkSetMethod = "calibrated") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated")
+
+    # Add iterative values
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated) { pIIterative(sequence = sequence, pkSetMethod = "solomon") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon) { pIIterative(sequence = sequence, pkSetMethod = "rodwell") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon", "rodwell")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell) { pIIterative(sequence = sequence, pkSetMethod = "emboss") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss) { pIIterative(sequence = sequence, pkSetMethod = "lehninger") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger) { pIIterative(sequence = sequence, pkSetMethod = "grimsley") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley) { pIIterative(sequence = sequence, pkSetMethod = "patrickios") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios) { pIIterative(sequence = sequence, pkSetMethod = "DtaSelect") })
+    colnames(data) <-c("sequence", "pIExp", "bejell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect")
+
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect){
+
+        sequence <- toupper(sequence)
         aaV <- strsplit(sequence, "", fixed = TRUE)
         aaNTerm <- aaV[[1]][1]
         aaCTerm <- aaV[[1]][nchar(sequence)]
@@ -57,23 +120,21 @@ svmPIDefault <- function(){
         zimmerman = zimmerman/count
         return (zimmerman)
     })
-    colnames(data) <-c("peptide", "pIExp", "bjell", "aaIndex")
-
-    save(data,file="svmData.rda")
-
-    peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
-    peptides_experimental <- subset(data, select=c("pIExp"))
-    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
-
-    return(svmProfile)
+    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "aaindex")
+    return(data)
 }
 
-svmPIData <- function(){
-    load("data/svmData.rda")
+#' svmPIData
+#'
+#' This function takes a data frame an return a model with the best variables
+#' @param data The df
+#'
+
+svmPIData <- function(data){
     peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
     peptides_experimental <- subset(data, select=c("pIExp"))
     svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
-    return(svmProfile)
+    return(svmProfileValue)
 }
 
 svmProfile <- function(dfExp, dfProp){
