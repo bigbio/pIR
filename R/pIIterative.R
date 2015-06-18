@@ -136,7 +136,8 @@ pcharge <- function(pH, pk){
 #' @param k the decimal places
 
 specify_decimal <- function(x, k){
-    return(format(round(x, k), nsmall=k))
+    value <- format(round(x, k), nsmall=k)
+    return(as.numeric(value))
 }
 
 

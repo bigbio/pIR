@@ -68,6 +68,14 @@ svmPIDefault <- function(){
     return(svmProfile)
 }
 
+svmPIData <- function(){
+    load("data/svmData.rda")
+    peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
+    peptides_experimental <- subset(data, select=c("pIExp"))
+    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties)
+    return(svmProfile)
+}
+
 svmProfile <- function(dfExp, dfProp){
 
     #load Data
