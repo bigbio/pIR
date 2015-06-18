@@ -1,7 +1,7 @@
 Package: pIR
 Type: Package
-Title: pIR: Comparative Benchmarking Methods Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino Acid Sequence.
-Version: 0.1
+Title: pIR: Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino Acid Sequence.
+Version: 0.99.0
 Date: 2015-06-05
 Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <ypriverol@gmail.com>
@@ -16,7 +16,9 @@ Imports: ggplot2,
          caret,
 Suggests:
     testthat,
-    knitr
+    knitr,
+    BiocStyle,
+    plyr
 LazyData: TRUE
 URL: http://github.com/ypriverol/pIR
 BugReports: http://github.com/ypriverol/pIR/issues

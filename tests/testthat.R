@@ -1,4 +1,4 @@
 library(testthat)
 library(pIR)
-test_dir("tests")
+test_dir("tests/testthat/")
 

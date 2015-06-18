@@ -58,7 +58,7 @@ pIIterative <- function(sequence, pkSetMethod = "solomon"){
             break;
         }
     }
-    pH <-specify_decimal(pH,3)
+    pH <-specify_decimal(pH,4)
     return (pH)
 }
 
