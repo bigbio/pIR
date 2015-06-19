@@ -104,4 +104,20 @@ bindRMSECorrelationFrame <- function(dat, method = "pearson"){
     return (bindRMSECorrelation(rmseValue, corr))
 }
 
+#' reformat
+#'
+#' This function reformat the sequence to remove inconsistencies
+#'
+#' @param seq sequence
+#'
+
+reformat <- function(seq){
+    seq <- gsub("X","",seq)
+    seq <- gsub("B", "", seq)
+    seq <- gsub("J", "", seq)
+    seq <- gsub("Z", "", seq)
+    return (seq)
+}
+
+
 

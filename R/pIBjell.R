@@ -22,7 +22,8 @@ computeAllBjellValues <- function(seq){
 #' @param pKSetMethod The pK set method
 #'
 pIBjell <- function(sequence, pkSetMethod = "expasy"){
-
+    sequence <- reformat(seq= sequence)
+    print(sequence)
     NtermPK <- loadNTermPK(pkSet = pkSetMethod)
     CtermPK <- loadCTermPK(pkSet= pkSetMethod)
     GroupPK <- loadGroupPK(pkSet = pkSetMethod)
@@ -48,6 +49,7 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
         }
     }
     pH <-specify_decimal(pH,4)
+    print(pH)
     return (pH)
 }
 

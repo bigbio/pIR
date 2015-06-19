@@ -35,7 +35,7 @@ NULL
 #'
 
 pIIterative <- function(sequence, pkSetMethod = "solomon"){
-
+    sequence <- reformat(seq= sequence)
     pkSet <- loadPkSetIterative(pkSetMethod)
 
     pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
