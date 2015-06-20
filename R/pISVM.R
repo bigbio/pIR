@@ -65,48 +65,48 @@ svmPIBuildSVM <- function(originalData){
     #Add all the bjell methods and pk Sets
     data <- mdply(data, function(sequence, pIExp) { pIBjell(sequence = sequence, pkSetMethod = "bjell") })
     colnames(data) <-c("sequence", "pIExp", "bjell")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell) { pIBjell(sequence = sequence, pkSetMethod = "expasy") })
     colnames(data) <-c("sequence", "pIExp","bjell", "expasy")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy) { pIBjell(sequence = sequence, pkSetMethod = "skoog") })
     colnames(data) <-c("sequence", "pIExp", "bjell","expasy", "skoog")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog) { pIBjell(sequence = sequence, pkSetMethod = "calibrated") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     # Add iterative values
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated) { pIIterative(sequence = sequence, pkSetMethod = "solomon") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon) { pIIterative(sequence = sequence, pkSetMethod = "rodwell") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell) { pIIterative(sequence = sequence, pkSetMethod = "emboss") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss) { pIIterative(sequence = sequence, pkSetMethod = "lehninger") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger) { pIIterative(sequence = sequence, pkSetMethod = "grimsley") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley) { pIIterative(sequence = sequence, pkSetMethod = "patrickios") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios) { pIIterative(sequence = sequence, pkSetMethod = "DtaSelect") })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect){
 
@@ -142,7 +142,7 @@ svmPIBuildSVM <- function(originalData){
         return (zimmerman)
     })
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "aaindex")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     return(data)
 }

@@ -23,7 +23,6 @@ computeAllBjellValues <- function(seq){
 #'
 pIBjell <- function(sequence, pkSetMethod = "expasy"){
     sequence <- reformat(seq= sequence)
-    print(sequence)
     NtermPK <- loadNTermPK(pkSet = pkSetMethod)
     CtermPK <- loadCTermPK(pkSet= pkSetMethod)
     GroupPK <- loadGroupPK(pkSet = pkSetMethod)
