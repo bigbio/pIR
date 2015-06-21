@@ -14,8 +14,8 @@ First, we need to install `devtools`:
    
 Then we just call  
 
-    install_github("ypriverol/pIBenchmark")
-    library(prideR)
+    install_github("ypriverol/pIR")
+    library(pIR)
 
 ##Examples
 =================
