@@ -24,8 +24,8 @@ Then we just call
 
 # Other different pKSets that can be selected: rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect
 
+library(pIR)
 seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
-
 pI <- pIIterative(sequence = seq, pkSetMethod = "solomon")
 print(pI)
 
