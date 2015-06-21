@@ -116,6 +116,7 @@ reformat <- function(seq){
     seq <- gsub("B", "", seq)
     seq <- gsub("J", "", seq)
     seq <- gsub("Z", "", seq)
+    seq <- gsub("U", "", seq)
     return (seq)
 }
 

@@ -108,9 +108,11 @@ svmPIBuildSVM <- function(originalData){
     colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect")
     write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect){
-
+    data <- read.table(file="data.csv", header = TRUE, sep = ",")
+    data <- mdply(data, function(X, sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect){
         sequence <- toupper(sequence)
+        sequence <- reformat(seq = sequence)
+
         aaV <- strsplit(sequence, "", fixed = TRUE)
         aaNTerm <- aaV[[1]][1]
         aaCTerm <- aaV[[1]][nchar(sequence)]
@@ -186,7 +188,7 @@ svmProfile <- function(dfExp, dfProp){
     testClass <- peptides_class[-inTrain];
 
     #Support Vector Machine Object
-    svmProfileValue <- rfe(x=trainDescr, y = trainClass, sizes = c(1:5),rfeControl = rfeControl(functions = caretFuncs,number = 2),method = "svmRadial",fit = FALSE);
+    svmProfileValue <- rfe(x=trainDescr, y = trainClass, sizes = c(1:5),rfeControl = rfeControl(functions = caretFuncs,number = 10),method = "svmRadial",fit = FALSE);
 
     return (svmProfileValue)
 }
