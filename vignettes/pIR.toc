@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Compute isoelectric protein of peptides and proteins}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Iterative Method}{1}{subsection.1.1}
+\contentsline {subsubsection}{\numberline {1.1.1}Calculate isoelectric point}{2}{subsubsection.1.1.1}
+\contentsline {subsubsection}{\numberline {1.1.2}Compute pI using all the pk sets}{3}{subsubsection.1.1.2}
+\contentsline {subsection}{\numberline {1.2}Bjellqvist Method}{4}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Calculate isoelectric point}{4}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2}Compute pI using all the pk sets}{4}{subsubsection.1.2.2}
+\contentsline {subsection}{\numberline {1.3}SVM Method}{5}{subsection.1.3}
+\contentsline {section}{\numberline {2}Session info}{5}{section.2}

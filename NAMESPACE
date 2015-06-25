@@ -1,0 +1,10 @@
+exportPattern("^[[:alpha:]]+")
+
+# Dependencies
+import(plyr)
+import(ggplot2)
+import(lsr)
+import(corrplot)
+import(caret)
+
+

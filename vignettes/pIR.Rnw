@@ -1,0 +1,244 @@
+%\VignetteIndexEntry{pIR}
+%\VignettePackage{pIR}
+%\VignetteEngine{utils::Sweave}
+
+\documentclass{article}
+
+<<style, eval=TRUE, echo=FALSE, results=tex>>=
+BiocStyle::latex()
+@
+
+\newcommand{\exitem}[3]{%
+  \item \texttt{\textbackslash#1\{#2\}} #3 \csname#1\endcsname{#2}.%
+}
+
+\title{pIR: An \R{} package for isoelectric point prediction based on amino acid sequences}
+\author{Yasset Perez-Riverol}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\maketitle
+
+
+%% Abstract and keywords %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vskip 0.3in minus 0.1in
+\hrule
+\begin{abstract}
+   Accurate estimation of the isoelectric point value (pI) based on the amino acid sequence becomes critical to perform proteomics experiments. Also, it is one of the most useful electrostatic properties to study peptides and proteins. Different methods has been proposed to compute the theoretical isoelectric point of peptides and proteins using several pK sets \cite{perez2012, bjellqvist1993}. This vignette provides a brief overview of the available interface and functionality as well as a short use case.
+\end{abstract}
+
+\textit{Keywords}: proteomics, peptides, proteins, electrophoresis, mass spectrometry, isoelectric point, tutorial.
+\vskip 0.1in minus 0.05in
+\hrule
+\vskip 0.2in minus 0.1in
+\vspace{10mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\tableofcontents
+
+\section{Compute isoelectric protein of peptides and proteins}
+\subsection{Iterative Method}
+ Isoelectric point can be defined as the point in a titration curve at which the net surface charge of a protein or peptide equals to zero. The called \textbf{"Iterative Method"} to predict the iseoelct point only considers the contribution of individual pKa values to the Henderson-Hasselbach equation. Keeping in main this we can use Henderson-Hasselbach equation to calculate protein charge in certain pH:
+
+- \textbf{for negative charged macromolecules}:
+
+\begin{center}
+        \( pH = -1/(1+10^{(pK_n - pH)}) \)   Equation(1)
+\end{center}
+
+where \(pK_n\) is the acid dissociation constant of negatively charged amino acid
+
+- \textbf{for positive charged macromolecules}:
+
+\begin{center}
+       \( pH = 1/(1+10^{(pH - pK_p)}) \)   Equation(2)
+\end{center}
+
+where \(pK_p\) is the acid dissociation constant of positively charged amino acid
+
+
+The most import moment during isoelectric point determination is usage of appropriate pK values. Unfortunately, there is no agreement in this matter. Each source gives different pKs. Some of them are presented pK that are available for the Iterative method in \textbf{pIR} are:
+
+\begin{table}[h]
+\centering
+\caption{pK values for the Iterative method}
+\label{my-label}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+                   & \multicolumn{9}{c|}{{\bf Amino acid}}  \\ \hline
+{pK value set} & NH2 & COOH & C & D & E & H & K & R & Y \\ \hline
+emboss         & 8.6 & 3.6 & 8.5 & 3.9 & 4.1 & 6.5 & 10.8 & 12.5 & 10.1 \\ \hline
+DTASelect      & 8.0 & 3.1 & 8.5 & 4.4 & 4.4 & 6.5 & 10.0 & 12.0 & 10.0 \\ \hline
+solomon        & 9.6 & 2.4 & 8.3 & 3.9 & 4.3 & 6.0 & 10.5 & 12.5 & 10.1 \\ \hline
+sillero        & 8.2 & 3.2 & 9.0 & 4.0 & 4.5 & 6.4 & 10.4 & 12.0 & 10.0 \\ \hline
+rodwell        & 8.0 & 3.1 & 8.33 & 3.68 & 4.25 & 6.0 & 11.5 & 11.5 & 10.07 \\ \hline
+patrickios     & 11.2 & 4.2 & - & 4.2 & 4.2 & - & 11.2 & 11.2 & -           \\ \hline
+lehninger      & 9.69 & 2.34 & 8.33 & 3.86 & 4.25 & 6.0 & 10.5 & 12.4 & 10.0\\ \hline
+grimsley       & 7.7 & 3.3 & 6.8 & 3.5 & 4.2 & 6.6 & 10.5 & 12.04 & 10.3    \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Calculate isoelectric point}
+
+\begin{verbatim}
+
+ # compute the isoelectric point using solomon method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "solomon")
+  pI.value
+ # 10.526
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  rodwell method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "rodwell")
+  pI.value
+ # 11.404
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  emboss method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "emboss")
+  pI.value
+ # 10.801
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  lehninger method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "lehninger")
+  pI.value
+ # 10.530
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  grimsley method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "grimsley")
+  pI.value
+ # 10.495
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  patrickios method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "patrickios")
+  pI.value
+ # 11.200
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  DtaSelect method
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pI.value <- pIIterative(sequence = seq, pkSetMethod = "DtaSelect")
+  pI.value
+ # 10.025
+
+\end{verbatim}
+
+\subsubsection{Compute pI using all the pk sets}
+
+\begin{verbatim}
+  # compute the isoelectric point using  all pK sets
+  library(pIR)
+  seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
+  pIValue <- computeAllIterativeValues(seq = seq)
+  pIValue
+  #       method values
+  # 1    solomon 10.526
+  # 2    rodwell 11.404
+  # 3     emboss 10.801
+  # 4  lehninger 10.530
+  # 5   grimsley 10.495
+  # 6 patrickios 11.200
+  # 7  DtaSelect 10.025
+
+\end{verbatim}
+
+\subsection{Bjellqvist Method}
+
+The Bjellquivst method \cite{bjellqvist1993} is based on the determination of the pK differences between closely related amino acids, and it was the first algorithm that proposed a different pKa value depending on the amino acid position in the sequence. The current version of the pIR supports four different pKsets: \textbf{bjell} \cite{bjellqvist1993},  \textbf{calibrated} \cite{gauci2008}, \textbf{skoog} and \textbf{expasy} \url{http://expasy.org/}
+
+\subsubsection{Calculate isoelectric point}
+
+\begin{verbatim}
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  bjell pk set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "bjell")
+  pI.value
+ # 3.04
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  calibrated pk set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "calibrated")
+  pI.value
+ # 4.09
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  skoog pk Set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "skoog")
+  pI.value
+ # 2.93
+
+ # -------------------------------------------------------------------- #
+
+ # compute the isoelectric point using  expasy pK set
+  library(pIR)
+  seq <- "AGAAPYVQAFDSLLAGPVAE"
+  pI.value <- pIBell(sequence = seq, pkSetMethod = "expasy")
+  pI.value
+ # 4.09
+
+\end{verbatim}
+
+\subsubsection{Compute pI using all the pk sets}
+
+\begin{verbatim}
+   # compute the isoelectric point using all the pK sets
+   seq <- "AGAAPYVQAFDSLLAGPVAE"
+   pIValue <- computeAllBjellValues(seq = seq)
+   pIValue
+   # method values
+   #1     expasy   4.09
+   #2      skoog   2.93
+   #3 calibrated   4.09
+   #4      bjell   3.04
+\end{verbatim}
+
+\subsection{SVM Method}
+
+
+%---------------------------------------------------------
+\section{Session info}
+%---------------------------------------------------------
+
+Here is the output of \Rfunction{sessionInfo} on the system on which
+this document was compiled:
+<<sessionInfo, results=tex, print=TRUE, eval=TRUE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{Bioc}
+
+\end{document}
