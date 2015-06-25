@@ -1,6 +1,6 @@
 #' pIIterativePK
 #'
-#' This data contains all the pk For the iterative method using different methods "solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"
+#' This data contains all the pk For the iterative method using different methods "solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect","toseland","thurlkill","nozaki_tanford" 
 #'
 #' The variables are as follows:
 #'
@@ -13,6 +13,9 @@
 #'   \item PATRICKIOS
 #'   \item RICHARD
 #'   \item LEHNINGER
+#'   \item TOSELAND
+#'   \item THURLKILL
+#'   \item NOZAKI_TANFORD
 #' }
 #'
 #' @docType data
@@ -76,8 +79,11 @@ computeAllIterativeValues <- function(seq){
     grimsley <- pIIterative(sequence = seq, pkSetMethod = "grimsley")
     patrickios <- pIIterative(sequence = seq, pkSetMethod = "patrickios")
     DtaSelect <- pIIterative(sequence = seq, pkSetMethod = "DtaSelect")
+    toseland <- pIIterative(sequence = seq, pkSetMethod = "toseland")
+    thurlkill <- pIIterative(sequence = seq, pkSetMethod = "thurlkill")
+    nozaki_tanford <- pIIterative(sequence = seq, pkSetMethod = "nozaki_tanford")
 
-    values <- data.frame(method=c("solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"), values=c(solomon, rodwell,emboss, lehninger, grimsley, patrickios,DtaSelect))
+    values <- data.frame(method=c("solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect","toseland","thurlkill","nozaki_tanford"), values=c(solomon, rodwell,emboss, lehninger, grimsley, patrickios,DtaSelect,toseland,thurlkill,nozaki_tanford))
     colnames(values) <- c("method", "values")
     return(values)
 
