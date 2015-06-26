@@ -150,6 +150,7 @@ plotCorrelationMatrix <- function(data, filter = NULL){
     return (plot)
 }
 
+<<<<<<< HEAD
 #' plotFractionCorrelation
 #'
 #' This fucntion plots the raw correlation of all the predicted varaibles (theoretical mean of the fraction) vs the expted variable (first column). It plots error bars and confidence intervals using a lineal model.
@@ -184,6 +185,8 @@ for (i in nm) {
  }
 
 
+=======
+>>>>>>> ff7e566e64c270577ddf07143ee6d0751213acbe
 
 
 
