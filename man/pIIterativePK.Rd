@@ -23,6 +23,9 @@ The variables are as follows:
   \item PATRICKIOS
   \item RICHARD
   \item LEHNINGER
+  \item TOSELAND
+  \item THURLKILL
+  \item NOZAKI_TANFORD
 }
 }
 \keyword{datasets}

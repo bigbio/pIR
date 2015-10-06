@@ -108,6 +108,7 @@ svmPIBuildSVM <- function(originalData){
     data <- mdply(data, function(X, sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect){
         sequence <- toupper(sequence)
         sequence <- reformat(seq = sequence)
+        sequence <- removePTM(seq = sequence) #to avoid PTMs character in sequence.
 
         aaV <- strsplit(sequence, "", fixed = TRUE)
         aaNTerm <- aaV[[1]][1]
@@ -196,10 +197,14 @@ svmProfile <- function(dfExp, dfProp, method = "svmRadial", numberIter = 2){
 #'
 aaIndex <- function(sequence){
 
+    sequence <- reformat(seq = sequence)
+    sequence <- removePTM(seq = sequence) #to avoid PTMs character in sequence.
+
     sequence <- toupper(sequence)
     aaV <- strsplit(sequence, "", fixed = TRUE)
     aaNTerm <- aaV[[1]][1]
     aaCTerm <- aaV[[1]][nchar(sequence)]
+
 
     pKNValues <- loadNTermPK(pkSet = "bjell")
     pKCValues <- loadCTermPK(pkSet = "bjell")
@@ -210,17 +215,17 @@ aaIndex <- function(sequence){
     zimmerman <- pKNTerm + pKCTerm
 
     aaZimmermanDes <- data.frame(key <-c("A",  "L",  "R", "K", "N", "M", "D", "F", "C","P", "Q", "S", "E", "T", "G", "W", "H", "Y", "I", "V"),
-    value  <- c( 6.00, 5.98, 10.76, 9.74, 5.41, 5.74, 2.77, 5.48, 5.05, 6.30, 5.65, 5.68,3.22, 5.66,5.97, 5.89, 7.59, 5.66, 6.02, 5.96))
+                                 value  <- c( 6.00, 5.98, 10.76, 9.74, 5.41, 5.74, 2.77, 5.48, 5.05, 6.30, 5.65, 5.68,3.22, 5.66,5.97, 5.89, 7.59, 5.66, 6.02, 5.96))
     colnames(aaZimmermanDes) <- c("key", "value")
     count <- 2;
 
     for(i in 1:nchar(sequence)) {
 
         aa <- aaV[[1]][i]
-        if(retrievePKValue(aa, aaZimmermanDes)){
+        if(is.na(retrievePKValue(aa, aaZimmermanDes))){
             zimmerman <-  zimmerman + retrievePKValue(aa, aaZimmermanDes)
             count <- count + 1
-    }
+        }
     }
 
     zimmerman = zimmerman/count

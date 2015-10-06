@@ -9,7 +9,7 @@ computeAllBjellValues <- function(seq){
     skoog      <- pIBjell(sequence = seq, pkSetMethod = "skoog")
     calibrated <- pIBjell(sequence = seq, pkSetMethod =  "calibrated")
     bjell      <- pIBjell(sequence = seq, pkSetMethod = "bjell")
-    values <- data.frame(method=c("expasy", "skoog","calibrated", "bjell"), values=c(expasy, skoog, calibrated,bjell))
+    values <- data.frame(method=c("expasy", "skoog","calibrated", "bjell"), values=c(expasy, skoog, calibrated, bjell))
     colnames(values) <- c("method", "values")
     return(values)
 
@@ -48,7 +48,7 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
         }
     }
     pH <-specify_decimal(pH,4)
-    print(pH)
+    #print(pH)
     return (pH)
 }
 
@@ -66,7 +66,7 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
 
 getcharge <- function (sequence, NTermPK, CTermPK, GroupPK, pH){
 
-    sequence <- toupper(sequence)
+    #sequence <- toupper(sequence)
 
     aaV <- strsplit(sequence, "", fixed = TRUE)
     aaNTerm <- aaV[[1]][1]
@@ -76,12 +76,23 @@ getcharge <- function (sequence, NTermPK, CTermPK, GroupPK, pH){
     pHpK <- 0.0
     this.FoRmU <- 0.0
 
-    pHpK <- pH - retrievePKValue(aaNTerm, NTermPK)
+    #To evaluate N-terminal contribution
+    if(aaNTerm=="n" || aaNTerm=="m"){       #n:Acetylation, m:Acetylation+Oxidation
+        pHpK <- pH - 0
+        this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
 
-    this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
+    } else if(aaNTerm=="o"){       #o: Oxidation, it no modifies N-terminal contribution
+        pHpK <- pH - retrievePKValue(aaV[[1]][2], NTermPK) #to eliminate PTM (neutral) to compute N-terminal contribution
+        this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
+
+    } else {
+        pHpK <- pH - retrievePKValue(aaNTerm, NTermPK)          #otherwise
+        this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
+    }
+
+
 
     pHpK <- retrievePKValue(aaCTerm, CTermPK) - pH
-
     this.FoRmU = this.FoRmU + (-1.0 / (1.0 + (10.0^pHpK)))
 
 
@@ -93,14 +104,20 @@ getcharge <- function (sequence, NTermPK, CTermPK, GroupPK, pH){
             valuepK <- retrievePKValue(aa, GroupPK)
 
             if (valuepK < 0.0) {
-                    pHpK <- pH + valuepK;
-                    this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
-                } else {
-                    pHpK <- valuepK - pH;
-                    this.FoRmU <- this.FoRmU + (-1.0 / (1.0 + (10.0^pHpK)))
-                }
+                pHpK <- pH + valuepK;
+                this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
+            } else {
+                pHpK <- valuepK - pH;
+                this.FoRmU <- this.FoRmU + (-1.0 / (1.0 + (10.0^pHpK)))
             }
         }
+
+        if(aa == "p"){            #computing phosphorylation contribution
+            aa <- aaV[[1]][i+1]     #getting the next amino acid in the sequence...
+            this.FoRmU = this.FoRmU + pchargePhosphorylation(aa, pH)
+        }
+
+    }
     return (this.FoRmU)
 }
 

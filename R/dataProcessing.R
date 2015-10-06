@@ -18,7 +18,7 @@ processData <- function (data)
 
 removeFirstColumn <- function(data)
 {
- return (data[-1])
+    return (data[-1])
 }
 
 #' computeCorrelationMatrix
@@ -112,7 +112,7 @@ bindRMSECorrelationFrame <- function(dat, method = "pearson"){
 #'
 
 reformat <- function(seq){
-    seq <- gsub("X","",seq)
+    seq <- gsub("X", "", seq)
     seq <- gsub("B", "", seq)
     seq <- gsub("J", "", seq)
     seq <- gsub("Z", "", seq)
@@ -120,5 +120,18 @@ reformat <- function(seq){
     return (seq)
 }
 
+#' removePTM
+#'
+#' This function reformat the sequence to remove all PTM labers.
+#' Useful for example to compute AAindex Isoelectric point
+#'
+#' @param seq sequence
+#'
 
-
+removePTM <- function(seq){
+    seq <- gsub("o", "", seq)
+    seq <- gsub("m", "", seq)
+    seq <- gsub("n", "", seq)
+    seq <- gsub("p", "", seq)
+    return (seq)
+}

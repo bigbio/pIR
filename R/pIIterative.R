@@ -13,6 +13,9 @@
 #'   \item PATRICKIOS
 #'   \item RICHARD
 #'   \item LEHNINGER
+#'   \item TOSELAND
+#'   \item THURLKILL
+#'   \item NOZAKI_TANFORD
 #' }
 #'
 #' @docType data
@@ -39,7 +42,7 @@ pIIterative <- function(sequence, pkSetMethod = "solomon"){
     pkSet <- loadPkSetIterative(pkSetMethod)
 
     pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
-                       # Average protein pI is 6.5 so we increase the probability.
+    # Average protein pI is 6.5 so we increase the probability.
     lastCharge <- 0
     gamma      <- 0.00001
     this.step = 3.5
@@ -76,12 +79,14 @@ computeAllIterativeValues <- function(seq){
     grimsley <- pIIterative(sequence = seq, pkSetMethod = "grimsley")
     patrickios <- pIIterative(sequence = seq, pkSetMethod = "patrickios")
     DtaSelect <- pIIterative(sequence = seq, pkSetMethod = "DtaSelect")
-
-    values <- data.frame(method=c("solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"), values=c(solomon, rodwell,emboss, lehninger, grimsley, patrickios,DtaSelect))
+    toseland <- pIIterative(sequence = seq, pkSetMethod = "toseland")
+    thurlkill <- pIIterative(sequence = seq, pkSetMethod = "thurlkill")
+    nozaki_tanford <- pIIterative(sequence = seq, pkSetMethod = "nozaki_tanford")
+    values <- data.frame(method=c("solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect","toseland","thurlkill","nozaki_tanford"), values=c(solomon, rodwell,emboss, lehninger, grimsley, patrickios,DtaSelect,toseland,thurlkill,nozaki_tanford))
     colnames(values) <- c("method", "values")
     return(values)
-
 }
+
 #' chargeAtPH
 #'
 #' This fucntion compute the charge of the peptide using a pkset
@@ -97,13 +102,22 @@ chargeAtPH <- function(sequence, pH = 7, pKIterative){
 
     charge <- 0.0
 
-    NTerm_Pk <- retrievePKValue("NTerm", pKIterative)
-    CTerm_Pk <- retrievePKValue("CTerm", pKIterative)
-
-    charge <- charge + pcharge(pH, NTerm_Pk)
-    charge <- charge - pcharge(CTerm_Pk,pH)
-    sequence <- toupper(sequence)
     aaV <- strsplit(sequence, "", fixed = TRUE)
+
+    #To evaluate N-terminal contribution
+    if(aaV[[1]][1]=="n" || aaV[[1]][1]=="m"){       #n:Acetylation, m:Acetylation+Oxidation
+        NTerm_Pk <- 0.0
+        charge <- charge + pcharge(pH, NTerm_Pk)
+    } else {
+        NTerm_Pk <- retrievePKValue("NTerm", pKIterative)      #otherwise
+        charge <- charge + pcharge(pH, NTerm_Pk)
+    }
+
+    CTerm_Pk <- retrievePKValue("CTerm", pKIterative)
+    charge <- charge - pcharge(CTerm_Pk,pH)
+
+    #sequence <- toupper(sequence) #convert any char to uppercase
+
     for (i in 1:nchar(sequence)){
         aa <- aaV[[1]][i]
         if(any(AAAcid == aa) && !is.na(retrievePKValue(aa, pKIterative))){
@@ -112,6 +126,10 @@ chargeAtPH <- function(sequence, pH = 7, pKIterative){
         if(any(AABasid == aa) && !is.na(retrievePKValue(aa, pKIterative))){
 
             charge = charge - pcharge(retrievePKValue(aa, pKIterative),pH)
+        }
+        if(aa == "p"){              #computing phosphorylation contribution
+            aa <- aaV[[1]][i+1]     #getting the next amino acid in the sequence...
+            charge = charge + pchargePhosphorylation(aa, pH)
         }
     }
     return (charge)
@@ -126,6 +144,55 @@ chargeAtPH <- function(sequence, pH = 7, pKIterative){
 pcharge <- function(pH, pk){
     val <- 10^(pH - pk)
     val <- 1/(1 + val)
+    return (val)
+}
+
+#' pchargePhosphorylation
+#'
+#' This pcharge function computhe the charge contribution of phosphorylation for S, T and Y amino acid
+#' @param aa amino acid phosphorylated
+#' @param pH current pH
+#'
+
+pchargePhosphorylation <- function(aa, pH){
+
+    val <- 0
+
+    if(!is.na(aa)){
+
+        if(aa == "S" || aa == "T"){
+
+            STpKa1 <- 1.2       #pk values for phospho-amino S and T (from ProMoST tool)
+            STpKa2 <- 6.5
+
+            val_1 <- 10^(STpKa1 - pH)
+            val_1 <- -1/(1 + val_1)
+
+            val_2 <- 10^(STpKa2 - pH)
+            val_2 <- -1/(1 + val_2)
+
+            val <- val_1 + val_2
+
+            return (val)
+        }
+
+        if(aa == "Y"){
+
+            STpKa1 <- 1.2       #!!!!put here the specific pKa and pKb for Y
+            STpKa2 <- 6.5
+
+            val_1 <- 10^(STpKa1 - pH)
+            val_1 <- -1/(1 + val_1)
+
+            val_2 <- 10^(STpKa2 - pH)
+            val_2 <- -1/(1 + val_2)
+
+            val <- val_1 + val_2
+
+            return (val)
+        }
+
+    }
     return (val)
 }
 
