@@ -35,4 +35,4 @@ print(pI)
 
 ### How to cite
 
-* Enrique Audain Martinez, Yassel Ramos, Henning Hermjakob, Darren R. Flower and Yasset Perez-Riverol (2015). Comparative Benchmarking Methods Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino Acid Sequence. Summitted to Bioinformatics.   
+Enrique Audain, Yassel Ramos, Henning Hermjakob, Darren R. Flower, Yasset Perez-Riverol. Accurate estimation of Isoelectric Point of Protein and Peptide based on Amino Acid Sequences. Bioinformatics (2015), doi: 10.1093/bioinformatics/btv674
