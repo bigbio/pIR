@@ -29,7 +29,7 @@ svmBuildPeptideData <- function(loadData = FALSE, method = "svmRadial", numberIt
         load("data/svmPeptideData.rda")
     }
 
-    peptides_properties <- subset(data, select=c("bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "aaindex"))
+    peptides_properties <- subset(data, select=c("bjell", "expasy", "calibrated","aaindex"))
     peptides_experimental <- subset(data, select=c("pIExp"))
     svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_properties, method = method, numberIter = numberIter)
     return(svmProfileValue)
@@ -63,84 +63,10 @@ svmPIBuildSVM <- function(originalData){
     colnames(data) <-c("sequence", "pIExp", "bjell")
     #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
-    data <- mdply(data, function(sequence, pIExp, bjell) { pIBjell(sequence = sequence, pkSetMethod = "expasy") })
-    colnames(data) <-c("sequence", "pIExp","bjell", "expasy")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    print(data)
 
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy) { pIBjell(sequence = sequence, pkSetMethod = "skoog") })
-    colnames(data) <-c("sequence", "pIExp", "bjell","expasy", "skoog")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog) { pIBjell(sequence = sequence, pkSetMethod = "calibrated") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    # Add iterative values
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated) { pIIterative(sequence = sequence, pkSetMethod = "solomon") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon) { pIIterative(sequence = sequence, pkSetMethod = "rodwell") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell) { pIIterative(sequence = sequence, pkSetMethod = "emboss") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss) { pIIterative(sequence = sequence, pkSetMethod = "lehninger") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger) { pIIterative(sequence = sequence, pkSetMethod = "grimsley") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley) { pIIterative(sequence = sequence, pkSetMethod = "patrickios") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios) { pIIterative(sequence = sequence, pkSetMethod = "DtaSelect") })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
-
-    data <- read.table(file="data.csv", header = TRUE, sep = ",")
-    data <- mdply(data, function(X, sequence, pIExp, bjell, expasy, skoog, calibrated, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect){
-        sequence <- toupper(sequence)
-        sequence <- reformat(seq = sequence)
-        sequence <- removePTM(seq = sequence) #to avoid PTMs character in sequence.
-
-        aaV <- strsplit(sequence, "", fixed = TRUE)
-        aaNTerm <- aaV[[1]][1]
-        aaCTerm <- aaV[[1]][nchar(sequence)]
-
-        pKNValues <- loadNTermPK(pkSet = "bjell")
-        pKCValues <- loadCTermPK(pkSet = "bjell")
-
-        pKNTerm <- retrievePKValue(aaNTerm, pKNValues)
-        pKCTerm <- retrievePKValue(aaCTerm, pKCValues)
-
-        zimmerman <- pKNTerm + pKCTerm
-
-        aaZimmermanDes <- data.frame(key <-c("A",  "L",  "R", "K", "N", "M", "D", "F", "C","P", "Q", "S", "E", "T", "G", "W", "H", "Y", "I", "V"),
-                                     value  <- c( 6.00, 5.98, 10.76, 9.74, 5.41, 5.74, 2.77, 5.48, 5.05, 6.30, 5.65, 5.68,3.22, 5.66,5.97, 5.89, 7.59, 5.66, 6.02, 5.96))
-        colnames(aaZimmermanDes) <- c("key", "value")
-        count <- 2;
-
-        for(i in 1:nchar(sequence)) {
-
-            aa <- aaV[[1]][i]
-            if(retrievePKValue(aa, aaZimmermanDes)){
-                zimmerman <-  zimmerman + retrievePKValue(aa, aaZimmermanDes)
-                count <- count + 1
-            }
-        }
-
-        zimmerman = zimmerman/count
-        print(zimmerman)
-        return (zimmerman)
-    })
-    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "calibrated", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "aaindex")
+    data <- mdply(data,  function(sequence, pIExp, bjell){ aaIndex(sequence = sequence)})
+    colnames(data) <-c("sequence", "pIExp", "bjell", "aaindex")
     #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
     return(data)
@@ -173,7 +99,7 @@ svmProfile <- function(dfExp, dfProp, method = "svmRadial", numberIter = 2){
     #Divide the dataset in train and test sets
 
     # Create an index of the number to train
-    inTrain <- createDataPartition(peptides_class, p = 3/4, list = FALSE);
+    inTrain <- createDataPartition(peptides_class, p = 3/4, list = FALSE)[,1];
 
     #Create the Training Dataset for Descriptors
     trainDescr <- peptides_desc[inTrain,];
@@ -185,7 +111,7 @@ svmProfile <- function(dfExp, dfProp, method = "svmRadial", numberIter = 2){
     testClass <- peptides_class[-inTrain];
 
     #Support Vector Machine Object
-    svmProfileValue <- rfe(x=trainDescr, y = trainClass, sizes = c(1:ncol(peptides_desc)),rfeControl = rfeControl(functions = caretFuncs,number = numberIter),method = method,fit = FALSE);
+    svmProfileValue <- rfe(trainDescr,trainClass, sizes = (1:4),rfeControl = rfeControl(functions = caretFuncs,number = numberIter, verbose = TRUE),method = method);
 
     return (svmProfileValue)
 }
@@ -229,5 +155,14 @@ aaIndex <- function(sequence){
     }
 
     zimmerman = zimmerman/count
+    print(zimmerman)
     return (zimmerman)
 }
+
+#pISVMpeptide <- function(sequence){
+#svmModel <- svmBuildPeptideData(loadData = FALSE)
+#aaIndex <- aaIndex(sequence = "AGAAPYVQAFDSLLAGPVAE")
+#   svmModel
+#}
+
+#pISVMpeptide(sequence = "CCCNPKR")

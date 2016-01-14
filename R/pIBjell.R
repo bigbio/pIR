@@ -48,7 +48,7 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
         }
     }
     pH <-specify_decimal(pH,4)
-    #print(pH)
+    print(pH)
     return (pH)
 }
 

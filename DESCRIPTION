@@ -1,17 +1,21 @@
 Package: pIR
 Type: Package
-Title: pIR: Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino Acid Sequence.
+Title: pIR: Estimating Isoelectric Point (pI) of Peptide and Proteins from Amino
+    Acid Sequence.
 Version: 0.99.0
 Date: 2015-06-05
 Author: Yasset Perez-Riverol
 Maintainer: Yasset Perez-Riverol <ypriverol@gmail.com>
-Description: This package provides functionalities to analyze different predictions of isoelectric point and the corresponding experimental value peptides and proteins.
+Description: This package provides functionalities to analyze different
+    predictions of isoelectric point and the corresponding experimental value
+    peptides and proteins.
 License: Apache 2
-Imports: ggplot2,
-         lsr,
-         corrplot,
-         caret,
-         plyr
+Imports:
+    ggplot2,
+    lsr,
+    corrplot,
+    caret,
+    plyr
 Suggests:
     testthat,
     knitr,
@@ -21,3 +25,4 @@ URL: http://github.com/ypriverol/pIR
 BugReports: http://github.com/ypriverol/pIR/issues
 biocViews: Proteomics, MassSpectrometry, Classification, QualityControl
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1
