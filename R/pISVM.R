@@ -81,9 +81,11 @@ svmPIBuildSVM <- function(originalData){
 svmPIData <- function(data){
     peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
     peptides_experimental <- subset(data, select=c("pIExp"))
-    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties, method = "svmRadial", numberIter = 5)
+    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties, method = "svmRadial", numberIter = 300)
     return(svmProfileValue)
 }
+
+
 
 svmProfile <- function(dfExp, dfProp, method = "svmRadial", numberIter = 2){
 
@@ -110,8 +112,35 @@ svmProfile <- function(dfExp, dfProp, method = "svmRadial", numberIter = 2){
     trainClass <- peptides_class[inTrain];
     testClass <- peptides_class[-inTrain];
 
+    mod <- getModelInfo("svmRadial", regex = FALSE)[[1]]
+
+    mod$predict <- function(modelFit, newdata, submodels = NULL) {
+        svmPred <- function(obj, x) {
+            hasPM <- !is.null(unlist(obj@prob.model))
+            if(hasPM) {
+                pred <- lev(obj)[apply(predict(obj, x, type = "probabilities"), 1, which.max)]
+            } else pred <- predict(obj, x)
+            pred
+        }
+        out <- try(svmPred(modelFit, newdata), silent = TRUE)
+        if(is.character(lev(modelFit))) {
+            if(class(out)[1] == "try-error") {
+                warning("kernlab class prediction calculations failed; returning NAs")
+                out <- rep("", nrow(newdata))
+                out[seq(along = out)] <- NA
+            }
+        } else {
+            if(class(out)[1] == "try-error") {
+                warning("kernlab prediction calculations failed; returning NAs")
+                out <- rep(NA, nrow(newdata))
+            }
+        }
+        if(is.matrix(out)) out <- out[,1]
+        out
+    }
+
     #Support Vector Machine Object
-    svmProfileValue <- rfe(trainDescr,trainClass, sizes = (1:4),rfeControl = rfeControl(functions = caretFuncs,number = numberIter, verbose = TRUE),method = method);
+    svmProfileValue <- rfe(trainDescr,trainClass, sizes = (1:4),rfeControl = rfeControl(functions = caretFuncs,number = numberIter, verbose = TRUE),method = mod);
 
     return (svmProfileValue)
 }
