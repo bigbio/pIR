@@ -12,6 +12,15 @@ loadDefaultModel <- function(){
     return(svmModel)
 }
 
+pISVMpeptide <- function(sequence){
+    calibrated <- pIBjell(sequence = sequence, pkSetMethod = "calibrated")
+    bjell      <- pIBjell(sequence = sequence, pkSetMethod = "bjell")
+    expasy     <- pIBjell(sequence = sequence, pkSetMethod = "expasy")
+    loadDefaultModel()
+    svmModel   <- svmModel
+    predict(svmModel$fit)
+}
+
 # dafaultTrainData
 # This function acces to the data to trace train the SVM method
 
@@ -194,9 +203,5 @@ aaIndex <- function(sequence){
 }
 
 #pISVMpeptide <- function(sequence){
-#svmModel <- svmBuildPeptideData(defaultModel = TRUE, numberIter = 200)
-#aaIndex <- aaIndex(sequence = "AGAAPYVQAFDSLLAGPVAE")
-#   svmModel
-#}
 
 #pISVMpeptide(sequence = "CCCNPKR")
