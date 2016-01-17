@@ -7,6 +7,11 @@ defaultPeptideTrainData <- function(){
     return(data)
 }
 
+loadDefaultModel <- function(){
+    svmModel <- load("data/peptideRadialModel.RData")
+    return(svmModel)
+}
+
 # dafaultTrainData
 # This function acces to the data to trace train the SVM method
 
@@ -20,19 +25,19 @@ defaultProteinTrainData <- function(){
 #
 # This function train the original dataset from the SVM dataset a get the model
 
-svmBuildPeptideData <- function(loadData = FALSE, method = "svmRadial", numberIter = 2){
+svmBuildPeptideData <- function(defaultModel = FALSE, method = "svmRadial", numberIter = 2){
     data <- defaultPeptideTrainData()
-    if(loadData){
-        data <- svmPIBuildSVM(originalData = data)
-        save(data,file="data/svmPeptideData.rda")
+    if(defaultModel){
+        loadDefaultModel()
+        svmModel <- svmModel
     }else{
         load("data/svmPeptideData.rda")
-    }
+        peptides_properties <- subset(data, select=c("bjell", "expasy", "calibrated","aaindex"))
+        peptides_experimental <- subset(data, select=c("pIExp"))
+        svmModel <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_properties, method = method, numberIter = numberIter)
 
-    peptides_properties <- subset(data, select=c("bjell", "expasy", "calibrated","aaindex"))
-    peptides_experimental <- subset(data, select=c("pIExp"))
-    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_properties, method = method, numberIter = numberIter)
-    return(svmProfileValue)
+    }
+    return(svmModel)
 }
 
 svmBuildProteinData <- function(loadData = FALSE, method = "svmRadial", numberIter = 2){
@@ -189,7 +194,7 @@ aaIndex <- function(sequence){
 }
 
 #pISVMpeptide <- function(sequence){
-#svmModel <- svmBuildPeptideData(loadData = FALSE)
+#svmModel <- svmBuildPeptideData(defaultModel = TRUE, numberIter = 200)
 #aaIndex <- aaIndex(sequence = "AGAAPYVQAFDSLLAGPVAE")
 #   svmModel
 #}
