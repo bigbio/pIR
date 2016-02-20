@@ -2,23 +2,58 @@
 # This function acces to the data to trace train the SVM method
 
 defaultPeptideTrainData <- function(){
-    filePath <- system.file("extdata", "svmPeptideData.csv", package = "pIR")
+    filePath <- system.file("extdata", "svmDataDefault.csv", package = "pIR")
     data <- read.table(file = filePath, sep = ",", header = TRUE)
     return(data)
 }
 
 loadDefaultModel <- function(){
-    svmModel <- load("data/peptideRadialModel.RData")
+    svmModel <- load("data/svmModelDefault.rda")
     return(svmModel)
 }
 
+
+# This function transform a new data (dataframe) using center and scale transformation.
+# This transformation is necesary previous to use svm method.
+
+transformData <- function(instance = instance){
+
+    #load default dataset
+    svmDataDefault <- load("data/svmDataDefault.rda")
+
+    #retrive attributes from default dataset. It must be equal to new instance attribute.
+    peptides_propeties <- subset(data, select=c("bjell", "expasy", "aaindex"))
+
+    #create preProcess object
+    preObject <- preProcess(peptides_propeties, method = c("center", "scale"))
+
+    #process new instance using default(training) setting
+    preData <- predict(preObject, newdata = instance)
+
+    return(preData)
+}
+
+
+# This function predict the pI from any sequence using SVM model.
+# Use as > pI <- pISVMpeptide("NSENATDANQVAHMYQSQDQVK")
+# value  > pI = 3.766294
+
 pISVMpeptide <- function(sequence){
-    calibrated <- pIBjell(sequence = sequence, pkSetMethod = "calibrated")
+
+    aaindex    <- aaIndex(sequence = sequence)
     bjell      <- pIBjell(sequence = sequence, pkSetMethod = "bjell")
     expasy     <- pIBjell(sequence = sequence, pkSetMethod = "expasy")
-    loadDefaultModel()
-    svmModel   <- svmModel
-    predict(svmModel$fit)
+
+    svmModel   <- loadDefaultModel()
+
+    #Building sequence as dataframe
+    seq <- data.frame(bjell, expasy, aaindex)
+
+    #pre-processing new instance using same training data processing
+    seq <- transformData(seq)
+
+    pI <- predict(svmModelDefault, newdata = seq)
+    return(pI)
 }
 
 # dafaultTrainData
@@ -40,8 +75,8 @@ svmBuildPeptideData <- function(defaultModel = FALSE, method = "svmRadial", numb
         loadDefaultModel()
         svmModel <- svmModel
     }else{
-        load("data/svmPeptideData.rda")
-        peptides_properties <- subset(data, select=c("bjell", "expasy", "calibrated","aaindex"))
+        load("data/svmDataDefault.rda")
+        peptides_properties <- subset(data, select=c("bjell", "expasy", "aaindex"))
         peptides_experimental <- subset(data, select=c("pIExp"))
         svmModel <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_properties, method = method, numberIter = numberIter)
 
@@ -70,18 +105,31 @@ svmBuildProteinData <- function(loadData = FALSE, method = "svmRadial", numberIt
 #' @param originalData The original dra frame
 #'
 svmPIBuildSVM <- function(originalData){
-    data <- originalData
 
+    data <- originalData
     #Add all the bjell methods and pk Sets
     data <- mdply(data, function(sequence, pIExp) { pIBjell(sequence = sequence, pkSetMethod = "bjell") })
+
     colnames(data) <-c("sequence", "pIExp", "bjell")
+
+    #Add all the bjell methods and pk Sets
+    data <- mdply(data, function(sequence, pIExp, bjell) { pIBjell(sequence = sequence, pkSetMethod = "expasy") })
+
+    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy")
+
+    #Add all the bjell methods and pk Sets
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy) { pIBjell(sequence = sequence, pkSetMethod = "skoog") })
+
+    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog")
+
+    #Add all the bjell methods and pk Sets
+    data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog) { aaIndex(sequence = sequence) })
+
+    colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex")
+
     #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
 
-    print(data)
-
-    data <- mdply(data,  function(sequence, pIExp, bjell){ aaIndex(sequence = sequence)})
-    colnames(data) <-c("sequence", "pIExp", "bjell", "aaindex")
-    #write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+    #print(data)
 
     return(data)
 }
@@ -93,7 +141,7 @@ svmPIBuildSVM <- function(originalData){
 #'
 
 svmPIData <- function(data){
-    peptides_propeties <- subset(data, select=c("bjell", "aaIndex"))
+    peptides_propeties <- subset(data, select=c("bjell", "expasy", "aaIndex"))
     peptides_experimental <- subset(data, select=c("pIExp"))
     svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties, method = "svmRadial", numberIter = 300)
     return(svmProfileValue)
@@ -154,7 +202,7 @@ svmProfile <- function(dfExp, dfProp, method = "svmRadial", numberIter = 2){
     }
 
     #Support Vector Machine Object
-    svmProfileValue <- rfe(trainDescr,trainClass, sizes = (1:4),rfeControl = rfeControl(functions = caretFuncs,number = numberIter, verbose = TRUE),method = mod);
+    svmProfileValue <- rfe(trainDescr,trainClass, sizes = (1:3),rfeControl = rfeControl(functions = caretFuncs,number = numberIter, verbose = TRUE),method = mod);
 
     return (svmProfileValue)
 }
@@ -198,10 +246,7 @@ aaIndex <- function(sequence){
     }
 
     zimmerman = zimmerman/count
-    print(zimmerman)
+#   print(zimmerman)
     return (zimmerman)
 }
 
-#pISVMpeptide <- function(sequence){
-
-#pISVMpeptide(sequence = "CCCNPKR")
