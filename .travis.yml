@@ -7,6 +7,7 @@ before_install:
   - ./travis-tool.sh bootstrap
 
 install:
+  - ./travis-tool.sh install_bioc BiocInstaller
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh r_install knitr
 
