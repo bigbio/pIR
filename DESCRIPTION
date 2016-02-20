@@ -18,6 +18,7 @@ Imports:
     plyr
 Suggests:
     testthat,
+    BiocStyle,
     knitr
 LazyData: TRUE
 URL: http://github.com/ypriverol/pIR

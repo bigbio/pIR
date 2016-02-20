@@ -7,3 +7,5 @@
 language: R
 bioc_required: true
 sudo: required
+before_install:
+  tlmgr install knitr
