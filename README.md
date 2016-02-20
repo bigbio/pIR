@@ -35,9 +35,9 @@ print(pI)
 
 ### How to cite
 
-Audain, E., Ramos, Y., Hermjakob, H., Flower, D. R., & Perez-Riverol, Y. (2015). Accurate estimation of isoelectric point of protein and peptide based on amino acid sequences. Bioinformatics, btv674. (http://bioinformatics.oxfordjournals.org/content/early/2015/12/09/bioinformatics.btv674.full)[article]
+Audain, E., Ramos, Y., Hermjakob, H., Flower, D. R., & Perez-Riverol, Y. (2015). Accurate estimation of isoelectric point of protein and peptide based on amino acid sequences. Bioinformatics, btv674. [article](http://bioinformatics.oxfordjournals.org/content/early/2015/12/09/bioinformatics.btv674.full)
 
-Perez-Riverol, Y., Audain, E., Millan, A., Ramos, Y., Sanchez, A., Vizcaíno, J. A., ... & González, L. J. (2012). Isoelectric point optimization using peptide descriptors and support vector machines. Journal of proteomics, 75(7), 2269-2274. (https://www.researchgate.net/profile/Vladimir_Besada/publication/221825414_Isoelectric_point_optimization_using_peptide_descriptors_and_support_vector_machines/links/09e41503561f3b0787000000.pdf)[article]
+Perez-Riverol, Y., Audain, E., Millan, A., Ramos, Y., Sanchez, A., Vizcaíno, J. A., ... & González, L. J. (2012). Isoelectric point optimization using peptide descriptors and support vector machines. Journal of proteomics, 75(7), 2269-2274. [article](https://www.researchgate.net/profile/Vladimir_Besada/publication/221825414_Isoelectric_point_optimization_using_peptide_descriptors_and_support_vector_machines/links/09e41503561f3b0787000000.pdf)
 
 
 
