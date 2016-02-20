@@ -6,3 +6,4 @@
 
 language: R
 bioc_required: false
+sudo: required
