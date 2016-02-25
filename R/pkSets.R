@@ -11,12 +11,9 @@
 #'   \item grimsley   : Gerald R Grimsley, J Martin Scholtz and C Nick Pace. A summary of the measured pK values of the ionizable groups in folded proteins. Protein Sci. 2009 Jan; 18(1): 247–251.
 #'   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
 #'   \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
-<<<<<<< HEAD
-#'   \item toseland   :
-#'   \item thurlkill  :
-#'   \item nozaki_tanford  :  
-=======
->>>>>>> ff7e566e64c270577ddf07143ee6d0751213acbe
+#'   \item toseland   : Toseland, C.P., et al. (2006). "PPD v1.0--an integrated, web-accessible database of experimentally determined protein pKa values." Nucleic Acids Res 34(Database issue): D199-203.
+#'   \item thurlkill  : Thurlkill, R.L., et al. (2006). "pK values of the ionizable groups of proteins." Protein Sci 15(5): 1214-1218.
+#'   \item nozaki_tanford  : Nozaki, Y., and C. Tanford. 1967. J. Am. Chem. Soc. 89:736–742.  
 #' }
 #'
 #' @param pkSetMethod name of the pk
@@ -53,7 +50,6 @@ loadPkSetIterative <- function(pkSetMethod = "solomon"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.1,8.5,4.4,4.4,6.5,10.0,12.0,10.0))
         colnames(pkValues) <- c("key", "value")
     }
-<<<<<<< HEAD
     if(pkSetMethod == "toseland"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.71,3.19,6.87,3.6,4.29,6.33,10.45,12.0,9.61))
         colnames(pkValues) <- c("key", "value")
@@ -67,8 +63,6 @@ loadPkSetIterative <- function(pkSetMethod = "solomon"){
         colnames(pkValues) <- c("key", "value")
     }
 
-=======
->>>>>>> ff7e566e64c270577ddf07143ee6d0751213acbe
     return (pkValues)
 }
 
