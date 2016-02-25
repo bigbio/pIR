@@ -13,7 +13,7 @@ BiocStyle::latex()
 }
 
 \title{pIR: An \R{} package for isoelectric point prediction based on amino acid sequences}
-\author{Yasset Perez-Riverol}
+\author{Yasset Perez-Riverol and Enrique Audain}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
