@@ -31,6 +31,27 @@ print(pI)
 
 #The result will be 10.526
 
+
+#Computing all pI values using Iterative method.
+
+> sequence <- "AADCEVEQWDSDEPIPAK"
+> pIvalues <- computeAllIterativeValues(seq = sequence)
+
+#The result will be...
+
+> pIvalues
+           method values
+1         solomon 3.4161
+2         rodwell 3.3749
+3          emboss 3.5322
+4       lehninger 3.3711
+5        grimsley 3.3012
+6      patrickios 3.4220
+7       DtaSelect 3.7848
+8        toseland 3.3571
+9       thurlkill 3.4784
+10 nozaki_tanford 3.6445
+
 ```
 
 ### How to cite
