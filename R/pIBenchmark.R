@@ -121,3 +121,108 @@ pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3){
 
 }
 
+
+
+#' computePIvalues
+#'
+#' This function take a data frame in the way of: sequence pIExp, and return a new 
+#' data frame with all pI values computed using multiple functions. This operation could be time-consuming.
+#' 
+#' @param originalData The original data frame
+#'
+
+
+computePIvalues <- function(dataframe = originalData){
+  
+  data <- dataset
+  
+  colnames(data) <-c("sequence", "pIExp")
+  
+  #Add all the bjell methods and pk Sets
+  data <- mdply(data, function(sequence, pIExp) { pIBjell(sequence = sequence, pkSetMethod = "bjell") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell")
+  
+  data <- mdply(data, function(sequence, pIExp, bjell) { pIBjell(sequence = sequence, pkSetMethod = "expasy") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy")
+  
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy) { pIBjell(sequence = sequence, pkSetMethod = "skoog") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog")
+  
+  #Add aaindex attribute
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog) { aaIndex(sequence = sequence) })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex")
+  
+  #Add all the Iterative methods and pk Sets
+  
+  #add solomon
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex) { pIIterative(sequence = sequence, pkSetMethod = "solomon") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon")
+  
+  #add rodwell
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon) { pIIterative(sequence = sequence, pkSetMethod = "rodwell") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell")
+  
+  #add emboss
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell) { pIIterative(sequence = sequence, pkSetMethod = "emboss") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss")
+  
+  #add lehninger
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss) { pIIterative(sequence = sequence, pkSetMethod = "lehninger") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger")
+  
+  #add grimsley
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger) { pIIterative(sequence = sequence, pkSetMethod = "grimsley") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley")
+  
+  #add patrickios
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley) { pIIterative(sequence = sequence, pkSetMethod = "patrickios") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios")
+  
+  #add DtaSelect
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios) { pIIterative(sequence = sequence, pkSetMethod = "DtaSelect") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect")
+  
+  #add toseland
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect) { pIIterative(sequence = sequence, pkSetMethod = "toseland") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland")
+  
+  #add thurlkill
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect, toseland) { pIIterative(sequence = sequence, pkSetMethod = "thurlkill") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill")
+  
+  #add nozaki_tanford
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect, toseland, thurlkill) { pIIterative(sequence = sequence, pkSetMethod = "nozaki_tanford") })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford")
+  
+  #add nozaki_tanford
+  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect, toseland, thurlkill, nozaki_tanford) { pICofactor(sequence = sequence) })
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "cofactor")
+  
+  #Add SVM pI data
+  #warning: the dataframe argument must containt the attributes: bjell, expasy and aaindex.
+  data <- pISVMsequences(dataframe = data, defaultModel = FALSE) 
+  
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "cofactor", "pISVM")
+  
+  #saving data with all variables
+  write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
+  
+  #print(data)
+  
+  return(data)
+}
