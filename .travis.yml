@@ -18,15 +18,8 @@ on_failure:
 
 notifications:
   email:
-    on_success: change
-    on_failure: change
-
-
+    on_success: ypriverol@gmail.com
+    on_failure: ypriverol@gmail.com
 
 after_failure:
   - ./travis-tool.sh dump_logs
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
