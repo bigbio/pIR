@@ -132,9 +132,9 @@ pIBenchmark <- function(pepFile, protFile, height = 800, width = 800, cols = 3){
 #'
 
 
-computePIvalues <- function(dataframe = originalData){
+computePIvalues <- function(originalData){
   
-  data <- dataset
+  data <- originalData
   
   colnames(data) <-c("sequence", "pIExp")
   
@@ -208,16 +208,16 @@ computePIvalues <- function(dataframe = originalData){
   
   colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford")
   
-  #add nozaki_tanford
-  data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect, toseland, thurlkill, nozaki_tanford) { pICofactor(sequence = sequence) })
+  #add cofactor
+  #data <- mdply(data, function(sequence, pIExp, bjell, expasy, skoog, aaindex, solomon, rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect, toseland, thurlkill, nozaki_tanford) { pICofactor(sequence = sequence) })
   
-  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "cofactor")
+  #colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "cofactor")
   
   #Add SVM pI data
   #warning: the dataframe argument must containt the attributes: bjell, expasy and aaindex.
   data <- pISVMsequences(dataframe = data, defaultModel = FALSE) 
   
-  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "cofactor", "pISVM")
+  colnames(data) <-c("sequence", "pIExp", "bjell", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "pISVM")
   
   #saving data with all variables
   write.table(data, file = "data.csv", sep = ",", col.names = NA, qmethod = "double")
