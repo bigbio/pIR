@@ -52,6 +52,60 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
     return (pH)
 }
 
+#' pIBjellMultipleSequences
+#'
+#' This function compute the isoelectric point of sequences contained into dataframe using the Bjell method.
+#' It return the same dataframe with predicted pI value binded.
+#' 
+#' 
+#' @param df The dataframe with sequences
+#' @param pKSetMethod The pK set method
+#'
+
+pIBjellMultipleSequences <- function(sequences = df, pkSetMethod = "expasy"){
+  
+  NtermPK <- loadNTermPK(pkSet = pkSetMethod)
+  CtermPK <- loadCTermPK(pkSet= pkSetMethod)
+  GroupPK <- loadGroupPK(pkSet = pkSetMethod)
+  
+  pIvalues <- vector() # new empty vector
+  
+  for(i in 1:nrow(sequences)) {
+      
+      sequence <- reformat(seq = sequences$sequence[i])
+      
+      pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
+      # Average protein pI is 6.5 so we increase the probability.
+      lastCharge <- 0
+      gamma      <- 0.00001
+      this.step = 3.5
+      
+      repeat {
+        charge <- getcharge(sequence = sequence, NTermPK = NtermPK, CTermPK = CtermPK, GroupPK = GroupPK, pH = pH)
+        if( charge > 0){
+          pH <- pH + this.step
+        }else{
+          pH <- pH - this.step
+        }
+        this.step = this.step/2
+        error <- abs(charge-lastCharge)
+        lastCharge <- charge
+        if(error < gamma){
+          break;
+        }
+      }
+      
+      pH <- specify_decimal(pH,4)
+      #print(pH)
+      pIvalues[[i]] <- pH #add new pI values to vector
+    
+  }
+    sequences$predicted <- pIvalues
+    
+    return(sequences)
+  
+}
+
 
 #' getcharge
 #'
