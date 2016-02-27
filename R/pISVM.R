@@ -16,21 +16,74 @@ loadDefaultModel <- function(){
 # This function transform a new data (dataframe) using center and scale transformation.
 # This transformation is necesary previous to use svm method.
 
-transformData <- function(instance = instance){
-
+transformData <- function(instances = instance, defaultData = TRUE, trainingSet = dataframe){
+    
+  if(defaultData){
+   
     #load default dataset
     svmDataDefault <- load("data/svmDataDefault.rda")
-
+    
     #retrive attributes from default dataset. It must be equal to new instance attribute.
     peptides_propeties <- subset(data, select=c("bjell", "expasy", "aaindex"))
-
+    
     #create preProcess object
     preObject <- preProcess(peptides_propeties, method = c("center", "scale"))
-
+    
     #process new instance using default(training) setting
-    preData <- predict(preObject, newdata = instance)
+    preData <- predict(preObject, newdata = instances)
+    
+  }else{
+    
+    #read varibles from dataframe
+    peptides_propeties <- subset(trainingSet, select=c("bjell", "expasy", "aaindex"))
+    
+    #create preProcess object
+    preObject <- preProcess(peptides_propeties, method = c("center", "scale"))
+    
+    #process new instance using default(training) setting
+    preData <- predict(preObject, newdata = instances)
+    
+  }
 
     return(preData)
+}
+
+
+# This function predict the pI from multiple sequences contained into dataframe.
+
+pISVMsequences <- function(dataframe = dataframe, defaultModel = TRUE){
+  
+    #read varibles from dataframe
+    sequences_propeties <- subset(dataframe, select=c("bjell", "expasy", "aaindex"))
+  
+    #processing data...requeried previous to use svm model
+    processedData <- transformData(instances = sequences_propeties, defaultData = FALSE, trainingSet = dataframe)
+  
+   if(defaultModel){
+    
+    #loading default svm model
+    svmModel   <- loadDefaultModel()
+    
+    #predicting pI with svm model
+    pI <- predict(svmModelDefault, newdata = processedData)
+    
+    #build dataframe with new pI values predicted
+    dataframe$pIsvm <- as.vector(pI, mode = "any")
+    
+  }else{
+    
+    #build new svm model from current data
+    svmModel <- svmPIData(data = dataframe)
+    
+    #predicting pI with svm model
+    pI <- predict(svmModel, newdata = processedData)
+    
+    #build dataframe with new pI values predicted
+    dataframe$pIsvm <- as.vector(pI, mode = "any")
+    
+  }
+  
+  return(dataframe)
 }
 
 
@@ -136,14 +189,16 @@ svmPIBuildSVM <- function(originalData){
 
 #' svmPIData
 #'
-#' This function takes a data frame an return a model with the best variables
+#' This function takes a data frame an return a model with the best variables.
+#' The training process could be time-consuming.
+#' 
 #' @param data The df
 #'
 
 svmPIData <- function(data){
-    peptides_propeties <- subset(data, select=c("bjell", "expasy", "aaIndex"))
+    peptides_propeties <- subset(data, select=c("bjell", "expasy", "aaindex"))
     peptides_experimental <- subset(data, select=c("pIExp"))
-    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties, method = "svmRadial", numberIter = 300)
+    svmProfileValue <- svmProfile(dfExp = peptides_experimental, dfProp = peptides_propeties, method = "svmRadial", numberIter = 2)
     return(svmProfileValue)
 }
 

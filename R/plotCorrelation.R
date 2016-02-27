@@ -150,6 +150,38 @@ plotCorrelationMatrix <- function(data, filter = NULL){
     return (plot)
 }
 
+#' plotFractionCorrelation
+#'
+#' This fucntion plots the raw correlation of all the predicted varaibles (theoretical mean of the fraction) vs the expted variable (first column). It plots error bars and confidence intervals using a lineal model.
+#' @param data frame
+#'
+
+plotFractionCorrelation <- function (dat){
+nm <- names(dat)
+plots <- list()  # new empty list
+for (i in nm) {
+        if(dat[1L] != dat[i]){
+             newData <- data.frame(x = dat[1L], y = dat[i])
+             colnames(newData) <- c("x", "y")
+             fractions_stats <- ddply(newData, ~x, summarise, y_mean=mean(y), y_sd=sd(y)) # split data in fraction. compute mean and standard deviation
+             # print(fractions_stats)
+             plot <- ggplot(fractions_stats, aes(x=x, y=y_mean))+
+             geom_errorbar(aes(ymin=y_mean-y_sd, ymax=y_mean+y_sd), width=.1) +
+                           geom_point() +
+                           geom_smooth(method="lm",formula=y~x) +
+                           xlab (nm[1L]) +
+                           ylab(i) +
+                           theme_bw()+
+                           theme(panel.border = element_blank(),
+             panel.grid.major = element_blank(),
+             panel.grid.minor = element_blank(),
+             axis.line = element_line(colour="black"))
+             plots[[i]] <- plot # add each plot into plot list
+        }
+ 
+     }
+    return (plots)
+ }
 
 
 

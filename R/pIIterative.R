@@ -1,6 +1,6 @@
 #' pIIterativePK
 #'
-#' This data contains all the pk For the iterative method using different methods "solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect"
+#' This data contains all the pk For the iterative method using different methods "solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect","toseland","thurlkill","nozaki_tanford"
 #'
 #' The variables are as follows:
 #'
@@ -72,6 +72,7 @@ pIIterative <- function(sequence, pkSetMethod = "solomon"){
 #'
 
 computeAllIterativeValues <- function(seq){
+  
     solomon <- pIIterative(sequence = seq, pkSetMethod = "solomon")
     rodwell <- pIIterative(sequence = seq, pkSetMethod = "rodwell")
     emboss <- pIIterative(sequence = seq, pkSetMethod =  "emboss")
@@ -82,7 +83,9 @@ computeAllIterativeValues <- function(seq){
     toseland <- pIIterative(sequence = seq, pkSetMethod = "toseland")
     thurlkill <- pIIterative(sequence = seq, pkSetMethod = "thurlkill")
     nozaki_tanford <- pIIterative(sequence = seq, pkSetMethod = "nozaki_tanford")
+    
     values <- data.frame(method=c("solomon", "rodwell","emboss", "lehninger", "grimsley", "patrickios","DtaSelect","toseland","thurlkill","nozaki_tanford"), values=c(solomon, rodwell,emboss, lehninger, grimsley, patrickios,DtaSelect,toseland,thurlkill,nozaki_tanford))
+
     colnames(values) <- c("method", "values")
     return(values)
 }

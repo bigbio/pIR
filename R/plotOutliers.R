@@ -40,7 +40,7 @@ plotOutliers <- function(protFile, height = 800, width = 800, cols = 3){
 plotOutlierDistribution <- function(data, na.rm = TRUE, ...) {
 
     #getting subset to analysis, only a few of predictors
-    data <- subset.data.frame(data, select = c(EXPERIMENTAL, ITERATIVE_LEHNINGER, BJELL_EXPASY, COFACTOR, SVM))
+    #data <- subset.data.frame(data, select = c(EXPERIMENTAL, ITERATIVE_LEHNINGER, BJELL_EXPASY, COFACTOR, SVM))
 
     nm <- names(data)
     #    breaks <- seq(from = 0, to = 14, by = 0.5)
@@ -96,7 +96,7 @@ plotOutlierDistribution <- function(data, na.rm = TRUE, ...) {
 plotOutlierOverall <- function(data, na.rm = TRUE, ...) {
 
     #getting subset to analysis
-    data <- subset.data.frame(data, select = c(EXPERIMENTAL, ITERATIVE_LEHNINGER, BJELL_EXPASY, COFACTOR, SVM))
+    #data <- subset.data.frame(data, select = c(EXPERIMENTAL, ITERATIVE_LEHNINGER, BJELL_EXPASY, COFACTOR, SVM))
     nm <- names(data)
 
     plots <- list()  # new empty list

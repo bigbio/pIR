@@ -11,6 +11,9 @@
 #'   \item grimsley   : Gerald R Grimsley, J Martin Scholtz and C Nick Pace. A summary of the measured pK values of the ionizable groups in folded proteins. Protein Sci. 2009 Jan; 18(1): 247–251.
 #'   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
 #'   \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
+#'   \item toseland   : Toseland, C.P., et al. (2006). "PPD v1.0--an integrated, web-accessible database of experimentally determined protein pKa values." Nucleic Acids Res 34(Database issue): D199-203.
+#'   \item thurlkill  : Thurlkill, R.L., et al. (2006). "pK values of the ionizable groups of proteins." Protein Sci 15(5): 1214-1218.
+#'   \item nozaki_tanford  : Nozaki, Y., and C. Tanford. 1967. J. Am. Chem. Soc. 89:736–742.  
 #' }
 #'
 #' @param pkSetMethod name of the pk
@@ -47,6 +50,19 @@ loadPkSetIterative <- function(pkSetMethod = "solomon"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.1,8.5,4.4,4.4,6.5,10.0,12.0,10.0))
         colnames(pkValues) <- c("key", "value")
     }
+    if(pkSetMethod == "toseland"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.71,3.19,6.87,3.6,4.29,6.33,10.45,12.0,9.61))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "thurlkill"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.67,8.55,3.67,4.25,6.54,10.4,12.0,9.84))
+        colnames(pkValues) <- c("key", "value")
+    }
+    if(pkSetMethod == "nozaki_tanford"){
+        pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(7.50,3.67,9.5,4.0,4.25,6.3,10.4,12.0,9.6))
+        colnames(pkValues) <- c("key", "value")
+    }
+
     return (pkValues)
 }
 
@@ -173,7 +189,7 @@ pICofactorAdjust_E_Nterm <- function(){
 }
 
 pICofactorAdjust_E_Cterm <- function(){
-    pKValue <- data.frame(key2 < c(0.022000, 0.014000, 0.036000, -0.020000, 0.120000, 0.006000, 0.000000, -0.092000, -0.002000, 0.000000, -0.038000, 0.002000, -0.008000, 0.006000, 0.000000, 0.072000, 0.000000, -0.022000, 0.020000, 0.022000, 0.000000, 0.012000, 0.006000, 0.000000, 0.050000, 5.496000),
+    pKValue <- data.frame(key2 <- c(0.022000, 0.014000, 0.036000, -0.020000, 0.120000, 0.006000, 0.000000, -0.092000, -0.002000, 0.000000, -0.038000, 0.002000, -0.008000, 0.006000, 0.000000, 0.072000, 0.000000, -0.022000, 0.020000, 0.022000, 0.000000, 0.012000, 0.006000, 0.000000, 0.050000, 5.496000),
                           key2 <- c(0.000000, 0.012000, -0.050000, -0.040000, -0.028000, 0.020000, 0.012000, -0.132000, 0.008000, 0.000000, -0.086000, 0.008000, 0.012000, 0.022000, 0.000000, 0.006000, 0.008000, -0.088000, -0.002000, -0.012000, 0.000000, 0.000000, 0.006000, 0.000000, 0.022000, 5.024000),
                           key3 <- c(0.000000, 0.000000, 0.016000, 0.000000, 0.026000, 0.000000, 0.000000, -0.070000, 0.000000, 0.000000, -0.032000, 0.000000, -0.008000, 0.004000, 0.000000, 0.004000, -0.010000, -0.028000, 0.000000, 0.006000, 0.000000, 0.000000, 0.032000, 0.000000, -0.022000, 4.400000))
 
