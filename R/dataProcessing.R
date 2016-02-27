@@ -135,3 +135,27 @@ removePTM <- function(seq){
     seq <- gsub("p", "", seq)
     return (seq)
 }
+
+
+#' processTerminalSequence
+#'
+#' This function reformat the sequence removing Search Engine notation.
+#' 
+#' Example:
+#' 
+#' sequence <- "K.SDFGHQASSR.L"
+#' s <- processTerminalSequence(seq = sequence)
+#' 
+#' The result will be:
+#' s = SDFGHQASSR
+#' 
+#' @param seq sequence
+#' 
+processTerminalSequence <- function (seq){
+  
+  before_dot <- 3
+  after_dot   <- nchar(seq) - 2
+  seq <- substr(seq, start = before_dot, stop = after_dot)
+  return (seq)
+}
+
