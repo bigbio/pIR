@@ -130,6 +130,13 @@ loadCTermPK <- function(pkSet = "expasy"){
 #' setGroupPK
 #'
 #' This function set the group contribution fo the Bjell method
+#' 
+#' #' \itemize{
+#'   \item expasy       : http://web.expasy.org/compute_pi/pi_tool-doc.html
+#'   \item skoog        : Bjellqvist B., et al (1993) The focusing positions of polypeptides in immobilized pH gradients can be predicted from their amino acid sequences. Electrophoresis, 14, 1023–1031.
+#'   \item bjell        : Bjellqvist B., et al (1993) The focusing positions of polypeptides in immobilized pH gradients can be predicted from their amino acid sequences. Electrophoresis, 14, 1023–1031.
+#'   \item calibrated   : Gauci S., et al (2008) A versatile peptide pI calculator for phosphorylated and N-terminal acetylated peptides experimentally tested using peptide isoelectric focusing. Proteomics, 8, 4898–4906.
+#' }
 #'
 #' @param pkSetMethod The pk Set to be use
 #'
