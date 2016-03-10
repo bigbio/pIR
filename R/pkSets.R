@@ -76,7 +76,7 @@ loadPkSetIterative <- function(pkSetMethod = "solomon"){
 loadNTermPK <- function(pkSet = "expasy"){
     pkValues <- c()
     if(pkSet == "expasy"){
-        pkValues <- data.frame(key=c("A",  "R", "N", "D", "C", "E", "Q", "G", "H", "I", "L", "K", "M", "F", "P","S",  "T",  "W", "Y", "V"),c( 7.59, 7.5, 7.5, 7.5, 7.5, 7.7, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.0, 7.5, 8.359999999999999, 6.93, 6.82, 7.5, 7.5, 7.44))
+        pkValues <- data.frame(key=c("A",  "R", "N", "D", "C", "E", "Q", "G", "H", "I", "L", "K", "M", "F", "P","S",  "T",  "W", "Y", "V"),c( 7.5, 7.5, 7.5, 7.5, 7.5, 7.7, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "skoog"){
@@ -105,7 +105,7 @@ loadCTermPK <- function(pkSet = "expasy"){
     pkValues <- c()
     if(pkSet == "expasy"){
         pkValues <- data.frame(key=c("A",  "R",  "N",  "D",  "C",  "E",  "Q",  "G",  "H",  "I",  "L",  "K",  "M",  "F",  "P",  "S",  "T",  "W",  "Y",  "V"),
-                                   c( 3.55, 3.55, 3.55, 4.55, 3.55, 4.75, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55 ,3.55, 3.55, 3.55))
+                                   c( 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55 ,3.55, 3.55, 3.55))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "skoog"){
