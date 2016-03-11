@@ -125,7 +125,6 @@ loadCTermPK <- function(pkSet = "expasy"){
 #' #' \itemize{
 #'   \item expasy       : http://web.expasy.org/compute_pi/pi_tool-doc.html
 #'   \item skoog        : Skoog B. and Wichman,A. (1986) Calculation of the isoelectric points of polypeptides from the amino acid composition. Trends Anal. Chem., 5, 82–83.
-#'   \item bjell        : Bjellqvist B., et al (1993) The focusing positions of polypeptides in immobilized pH gradients can be predicted from their amino acid sequences. Electrophoresis, 14, 1023–1031.
 #'   \item calibrated   : Gauci S., et al (2008) A versatile peptide pI calculator for phosphorylated and N-terminal acetylated peptides experimentally tested using peptide isoelectric focusing. Proteomics, 8, 4898–4906.
 #' }
 #'
