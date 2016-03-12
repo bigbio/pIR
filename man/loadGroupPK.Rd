@@ -12,4 +12,11 @@ loadGroupPK(pkSet = "expasy")
 \description{
 This function set the group contribution fo the Bjell method
 }
+\details{
+#' \itemize{
+  \item expasy       : http://web.expasy.org/compute_pi/pi_tool-doc.html
+  \item skoog        : Skoog B. and Wichman,A. (1986) Calculation of the isoelectric points of polypeptides from the amino acid composition. Trends Anal. Chem., 5, 82–83.
+  \item calibrated   : Gauci S., et al (2008) A versatile peptide pI calculator for phosphorylated and N-terminal acetylated peptides experimentally tested using peptide isoelectric focusing. Proteomics, 8, 4898–4906.
+}
+}
 
