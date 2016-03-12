@@ -83,10 +83,6 @@ loadNTermPK <- function(pkSet = "expasy"){
         pkValues <- data.frame(key=c("A",  "R",    "N",  "D",  "C",     "E",  "Q",  "G", "H", "I",  "L", "K",    "M",  "F",  "P",  "S",  "T",   "W",  "Y",    "V"),c( 9.69, 9.0399, 8.80, 9.82, 10.7799, 9.76, 9.13, 9.6, 9.17,9.68, 9.6, 8.9499, 9.21, 9.13, 10.6, 9.15, 10.43, 9.39, 9.1099, 9.6199))
         colnames(pkValues) <- c("key", "value")
     }
-    if(pkSet == "bjell"){
-        pkValues <- data.frame(key=c("A", "R",  "N",  "D", "C",    "E",  "Q",  "G", "H",  "I",  "L",  "K",  "M",  "F",  "P",    "S",  "T",  "W",  "Y",  "V"),c( 7.5, 6.76, 7.22, 7.7, 8.1199, 7.19, 6.73, 7.5, 7.18, 7.48, 7.46, 6.67, 6.98, 6.96, 8.3599, 6.86, 7.02, 7.11, 6.83, 7.44))
-        colnames(pkValues) <- c("key", "value")
-    }
     if(pkSet == "calibrated"){
         pkValues <- data.frame(key=c("A", "R",  "N",  "D", "C",    "E",  "Q",  "G", "H",  "I",  "L",  "K",  "M",  "F",  "P",    "S",  "T",  "W",  "Y",  "V"),c(7.59, 7.5,  6.7,  7.5, 6.5,    7.7,  7.5,  7.5, 7.5,  7.5,  7.5,  7.5,  7.0,  7.5,  8.3599, 6.93, 6.82, 7.5,  7.5,  7.44))
         colnames(pkValues) <- c("key", "value")
@@ -113,11 +109,6 @@ loadCTermPK <- function(pkSet = "expasy"){
                                    c(2.35,  2.17,   2.02, 2.09, 1.71, 2.19, 2.17, 2.34, 1.82, 2.36, 2.36, 2.18, 2.28, 1.83, 1.99, 2.21, 2.63, 2.38, 2.2, 2.32))
         colnames(pkValues) <- c("key", "value")
     }
-    if(pkSet == "bjell"){
-        pkValues <- data.frame(key=c("A",  "R",  "N",  "D",  "C",  "E",  "Q",  "G",  "H",  "I",  "L",  "K",  "M",  "F",  "P",    "S",  "T",  "W",  "Y",  "V"),
-                                   c( 2.35, 2.17, 2.02, 2.09, 1.71, 2.19, 2.17, 2.34, 1.82, 2.36, 2.36, 2.18, 2.28, 1.83, 1.99,   2.21, 2.63, 2.38, 2.2,  2.32))
-        colnames(pkValues) <- c("key", "value")
-    }
     if(pkSet == "calibrated"){
         pkValues <- data.frame(key=c("A",  "R",  "N",  "D",  "C",  "E",  "Q",  "G",  "H",  "I",  "L",  "K",  "M",  "F",  "P",  "S",  "T",  "W",  "Y",  "V"),
                                    c( 3.55, 3.55, 3.55, 4.55, 3.55, 4.75, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55, 3.55))
@@ -134,7 +125,6 @@ loadCTermPK <- function(pkSet = "expasy"){
 #' #' \itemize{
 #'   \item expasy       : http://web.expasy.org/compute_pi/pi_tool-doc.html
 #'   \item skoog        : Skoog B. and Wichman,A. (1986) Calculation of the isoelectric points of polypeptides from the amino acid composition. Trends Anal. Chem., 5, 82–83.
-#'   \item bjell        : Bjellqvist B., et al (1993) The focusing positions of polypeptides in immobilized pH gradients can be predicted from their amino acid sequences. Electrophoresis, 14, 1023–1031.
 #'   \item calibrated   : Gauci S., et al (2008) A versatile peptide pI calculator for phosphorylated and N-terminal acetylated peptides experimentally tested using peptide isoelectric focusing. Proteomics, 8, 4898–4906.
 #' }
 #'
@@ -151,11 +141,6 @@ loadGroupPK <- function(pkSet = "expasy"){
     if(pkSet == "skoog"){
         pkValues <- data.frame(key=c("R",   "D",  "C",  "E",   "H",   "K",    "Y"),
                                    c(-12.48, 3.86, 8.33, 4.25, -6.0, -10.5299, 10.07))
-        colnames(pkValues) <- c("key", "value")
-    }
-    if(pkSet == "bjell"){
-        pkValues <- data.frame(key=c("R",  "D",  "C",    "E",   "H",   "K",  "Y"),
-                                   c(-12.5, 4.07, 8.2799, 4.45, -6.08, -9.80, 9.84))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "calibrated"){
