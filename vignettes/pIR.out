@@ -1,0 +1,9 @@
+\BOOKMARK [1][]{section.1}{1 Compute isoelectric protein of peptides and proteins}{}% 1
+\BOOKMARK [2][]{subsection.1.1}{1.1 Iterative Method}{section.1}% 2
+\BOOKMARK [3][]{subsubsection.1.1.1}{1.1.1 Calculate isoelectric point}{subsection.1.1}% 3
+\BOOKMARK [3][]{subsubsection.1.1.2}{1.1.2 Compute pI using all the pk sets}{subsection.1.1}% 4
+\BOOKMARK [2][]{subsection.1.2}{1.2 Bjellqvist Method}{section.1}% 5
+\BOOKMARK [3][]{subsubsection.1.2.1}{1.2.1 Calculate isoelectric point}{subsection.1.2}% 6
+\BOOKMARK [3][]{subsubsection.1.2.2}{1.2.2 Compute pI using all the pk sets}{subsection.1.2}% 7
+\BOOKMARK [2][]{subsection.1.3}{1.3 SVM Method}{section.1}% 8
+\BOOKMARK [1][]{section.2}{2 Session info}{}% 9

@@ -77,7 +77,7 @@ pIBjellMultipleSequences <- function(sequences = df, pkSetMethod = "expasy"){
       pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
       # Average protein pI is 6.5 so we increase the probability.
       lastCharge <- 0
-      gamma      <- 0.00001
+      gamma      <- 0.0001
       this.step = 3.5
       
       repeat {
@@ -100,7 +100,11 @@ pIBjellMultipleSequences <- function(sequences = df, pkSetMethod = "expasy"){
       pIvalues[[i]] <- pH #add new pI values to vector
     
   }
+    #adding new column with predicted values
     sequences$predicted <- pIvalues
+    
+    #rename column added with pK set name
+    names(sequences)[names(sequences)=="predicted"] <- c(pkSetMethod)
     
     return(sequences)
   

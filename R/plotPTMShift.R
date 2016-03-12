@@ -83,16 +83,17 @@ plotPTMShiftOverallData <- function (dat1, dat2){
             plot <- ggplot(dataStats, aes(x=x, y=y, shape=time))+
                 geom_point(size=2.5, alpha=.4)+                          #set points size and transparency
                 scale_shape_manual(values=c(1,2)) +                      #set points shape
-                geom_smooth(method=lm, se=FALSE, fullrange=TRUE) +       #add lineal model
-                annotate("text", label=parseCoeff(r_sqrt1), parse=TRUE, x=Inf, y=-Inf, hjust=3.5, vjust= -5.0)+
-                annotate("text", label=parseCoeff(r_sqrt2), parse=TRUE, x=Inf, y=-Inf, hjust=1.1, vjust= -.5)+
+                geom_smooth(aes(colour=factor(time)), method=lm, se=FALSE, fullrange=TRUE) +       #add lineal model
+                annotate("text", label=parseCoeff(r_sqrt1), parse=TRUE, x=Inf, y=-Inf, hjust=3.5, vjust= -.5, color="red")+
+                annotate("text", label=parseCoeff(r_sqrt2), parse=TRUE, x=Inf, y=-Inf, hjust=1.1, vjust= -.5, color="darkcyan")+
                 #coord_fixed(ratio=1/2) +
                 scale_y_continuous(breaks=seq(4, 10, 1)) +
                 scale_x_continuous(breaks=seq(4, 7, .25))+
                 xlab (nm[1L]) +
                 ylab(i) +
                 theme_bw()+
-                theme(legend.position="none")+
+                theme(legend.title = element_blank())+
+                theme(legend.position="top")+
                 theme(legend.background=element_blank()) +
                 theme(legend.key=element_blank()) +
                 theme(panel.border = element_blank(),
