@@ -10,6 +10,7 @@ svmPIData(data)
 \item{data}{The df}
 }
 \description{
-This function takes a data frame an return a model with the best variables
+This function takes a data frame an return a model with the best variables.
+The training process could be time-consuming.
 }
 

@@ -21,6 +21,9 @@ This function retrieve a pk dataset using the name of the pKSet
   \item grimsley   : Gerald R Grimsley, J Martin Scholtz and C Nick Pace. A summary of the measured pK values of the ionizable groups in folded proteins. Protein Sci. 2009 Jan; 18(1): 247–251.
   \item wikipedia  : http://en.wikipedia.org/wiki/List_of_standard_amino_acids
   \item DtaSelect  : http://fields.scripps.edu/DTASelect/20010710-pI-Algorithm.pdf
+  \item toseland   : Toseland, C.P., et al. (2006). "PPD v1.0--an integrated, web-accessible database of experimentally determined protein pKa values." Nucleic Acids Res 34(Database issue): D199-203.
+  \item thurlkill  : Thurlkill, R.L., et al. (2006). "pK values of the ionizable groups of proteins." Protein Sci 15(5): 1214-1218.
+  \item nozaki_tanford  : Nozaki, Y., and C. Tanford. 1967. J. Am. Chem. Soc. 89:736–742.  
 }
 }
 
