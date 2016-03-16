@@ -24,43 +24,53 @@ loadPkSetIterative <- function(pkSetMethod = "solomon"){
     if(pkSetMethod == "solomon"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(9.6,2.4,8.3,3.9,4.3,6.0,10.5,12.5,10.1))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
 
     }
     if(pkSetMethod == "rodwell"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.1,8.33,3.68,4.25,6.0,11.5,11.5,10.07))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "emboss"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.6,3.6,8.5,3.9,4.1,6.5,10.8,12.5,10.1))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "lehninger"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(9.69,2.34,8.33,3.86,4.25,6.0,10.5,12.4,10.0))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "grimsley"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(7.7,3.3,6.8,3.5,4.2,6.6,10.5,12.04,10.3))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "patrickios"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(11.2,4.2,0.0,4.2,4.2,0.0,11.2,11.2,0.0))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "DtaSelect"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.1,8.5,4.4,4.4,6.5,10.0,12.0,10.0))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "toseland"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.71,3.19,6.87,3.6,4.29,6.33,10.45,12.0,9.61))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "thurlkill"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(8.0,3.67,8.55,3.67,4.25,6.54,10.4,12.0,9.84))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
     if(pkSetMethod == "nozaki_tanford"){
         pkValues <- data.frame(key=c("NTerm","CTerm","C","D","E","H","K","R","Y"), c(7.50,3.67,9.5,4.0,4.25,6.3,10.4,12.0,9.6))
         colnames(pkValues) <- c("key", "value")
+        return (pkValues)
     }
 
     return (pkValues)
@@ -135,17 +145,17 @@ loadGroupPK <- function(pkSet = "expasy"){
     pkValues <- c()
     if(pkSet == "expasy"){
         pkValues <- data.frame(key=c("R", "D", "C", "E", "H", "K", "Y"),
-                                   c(-12.0, 4.05, 9.0, 4.45, -5.98, -10.0, 10.0))
+                                   c(12.0, 4.05, 9.0, 4.45, 5.98, 10.0, 10.0))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "skoog"){
         pkValues <- data.frame(key=c("R",   "D",  "C",  "E",   "H",   "K",    "Y"),
-                                   c(-12.48, 3.86, 8.33, 4.25, -6.0, -10.5299, 10.07))
+                                   c(12.48, 3.86, 8.33, 4.25, 6.0, 10.5299, 10.07))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "calibrated"){
         pkValues <- data.frame(key=c("R", "D", "C", "E", "H", "K", "Y"),
-                                   c(-12.0, 4.05, 9.0, 4.45, -5.98, -10.0, 10.0))
+                                   c(12.0, 4.05, 9.0, 4.45, 5.98, 10.0, 10.0))
         colnames(pkValues) <- c("key", "value")
     }
     return(pkValues)
