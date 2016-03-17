@@ -32,37 +32,67 @@ NULL
 #'
 #' @param sequence The amino acid sequence to be sue to compute the Isoelectric point
 #' @param pkSetMethod The pK set to be used
+#' @param gamma The parameter to fix precision
 #'
 #' @examples
 #' pIIterative(sequence="GLPRKILCAIAKKKGKCKGPLKLVCKC", pkSetMethod = "solomon")
 #'
 
-pIIterative <- function(sequence, pkSetMethod = "solomon"){
-    sequence <- reformat(seq= sequence)
-    pkSet <- loadPkSetIterative(pkSetMethod)
-
-    pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
-    # Average protein pI is 6.5 so we increase the probability.
-    lastCharge <- 0
-    gamma      <- 0.00001
-    this.step = 3.5
-
-    repeat {
-        charge <- chargeAtPH(sequence, pH, pkSet)
-        if( charge > 0){
-            pH <- pH + this.step
-        }else{
-            pH <- pH - this.step
-        }
-        this.step = this.step/2
-        error <- abs(charge-lastCharge)
-        lastCharge <- charge
-        if(error < gamma){
-            break;
-        }
-    }
-    pH <-specify_decimal(pH,4)
+pIIterative <- function(sequence, pkSetMethod = "solomon", gamma = 0.001){
+  #reformat sequence
+  sequence <- reformat(seq= sequence)
+  
+  #load requeried pK set
+  pkSet <- loadPkSetIterative(pkSetMethod)
+  
+  pH = 7.0
+  
+  #compute pI at reducied pH range 0.0-7.0. It avoid to
+  #use the whole pH range.
+  if(computeCharge(sequence, pH, pkSet) < 0){
+    pHs <- seq(0, 7, gamma)
+    charges <- computeCharge(sequence, pHs, pkSet)
+    return(pHs[which.min(abs(charges))])
+  }
+  
+  #compute pI at reducied pH range 7.0-14.0. It avoid to
+  #use the whole pH range.
+  if(computeCharge(sequence, pH, pkSet) > 0){
+    pHs <- seq(7, 14, gamma)
+    charges <- computeCharge(sequence, pHs, pkSet)
+    return(pHs[which.min(abs(charges))])
+  }
+  
+    #them return current pH value
+    #pH <-specify_decimal(pH,4)
     return (pH)
+}
+
+
+#' pIIterativeMultipleSequences
+#'
+#' This function compute the isoelectric point of sequences contained into dataframe using the Iterative method.
+#' At lest, a column named "sequence" is expected.
+#' It return a dataframe with predicted pI value binded.
+#' 
+#' 
+#' @param df The dataframe with sequences
+#' @param pKSetMethod The pK set method
+#'
+
+pIIterativeMultipleSequences <- function(sequences = df, pkSetMethod = "solomon"){
+  
+  #getting column with sequences
+  data <- subset(sequences, select=c("sequence"))
+  
+  #compute pI
+  data <- mdply(data, function(sequence) { pIIterative(sequence = sequence, pkSetMethod) })
+  
+  #rename column added with pK set name
+  names(data)[names(data)=="V1"] <- c(pkSetMethod)
+  
+  return(data)
+  
 }
 
 #' computeAllIterativeValues
@@ -100,42 +130,44 @@ computeAllIterativeValues <- function(seq){
 
 chargeAtPH <- function(sequence, pH = 7, pKIterative){
 
-    AAAcid  <- c("K","R", "H");
-    AABasid <- c("D", "E", "C", "Y")
-
-    charge <- 0.0
-
-    aaV <- strsplit(sequence, "", fixed = TRUE)
-
-    #To evaluate N-terminal contribution
-    if(aaV[[1]][1]=="n" || aaV[[1]][1]=="m"){       #n:Acetylation, m:Acetylation+Oxidation
-        NTerm_Pk <- 0.0
-        charge <- charge + pcharge(pH, NTerm_Pk)
-    } else {
-        NTerm_Pk <- retrievePKValue("NTerm", pKIterative)      #otherwise
-        charge <- charge + pcharge(pH, NTerm_Pk)
-    }
-
-    CTerm_Pk <- retrievePKValue("CTerm", pKIterative)
-    charge <- charge - pcharge(CTerm_Pk,pH)
-
-    #sequence <- toupper(sequence) #convert any char to uppercase
-
-    for (i in 1:nchar(sequence)){
-        aa <- aaV[[1]][i]
-        if(any(AAAcid == aa) && !is.na(retrievePKValue(aa, pKIterative))){
-            charge <- charge + pcharge(pH, retrievePKValue(aa, pKIterative))
-        }
-        if(any(AABasid == aa) && !is.na(retrievePKValue(aa, pKIterative))){
-
-            charge = charge - pcharge(retrievePKValue(aa, pKIterative),pH)
-        }
-        if(aa == "p"){              #computing phosphorylation contribution
-            aa <- aaV[[1]][i+1]     #getting the next amino acid in the sequence...
-            charge = charge + pchargePhosphorylation(aa, pH)
-        }
-    }
-    return (charge)
+     sequence <- gsub("[\r\n ]", "", sequence)
+  
+     lev <- c("n","m","p","R","H","K","D","E","C","Y") #here the entries that will be considered (PTMs, aa basic, aa acid)
+  
+     aa <- table(factor(prot <- strsplit(sequence, "")[[1]], levels = lev))
+  
+     #To evaluate N-terminal contribution
+     if(prot[1]=="n" || prot[1]=="m"){       #n:Acetylation, m:Acetylation+Oxidation
+        nterm <- 0.0
+      } else {
+        nterm <- (1/(1 +  10^(1 *  (pH - retrievePKValue("NTerm", pKIterative)))))      #otherwise
+      }
+  
+     #To evaluate C-terminal contribution
+     cterm <- (-1/(1 + 10^(-1 * (pH - retrievePKValue("CTerm", pKIterative)))))
+  
+     carg <- aa["R"] * (1/(1 + 10^(1 * (pH - retrievePKValue("R", pKIterative)))))
+     chis <- aa["H"] * (1/(1 + 10^(1 * (pH - retrievePKValue("H", pKIterative)))))
+     clys <- aa["K"] * (1/(1 + 10^(1 * (pH - retrievePKValue("K", pKIterative)))))
+     casp <- aa["D"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("D", pKIterative)))))
+     cglu <- aa["E"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("E", pKIterative)))))
+     ccys <- aa["C"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("C", pKIterative)))))
+     ctyr <- aa["Y"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("Y", pKIterative)))))
+  
+     #computing phosphorylation contribution
+     pcharge <- 0
+      if(grepl(pattern = "p", x=sequence, fixed = "TRUE")){  
+        for (i in 1:length(prot)){
+          if(prot[i] == "p"){              
+            phosphoAA <- prot[i+1]         #getting the next aminoacid (Phospho) in the sequence...
+            pcharge = pcharge + pchargePhosphorylation(phosphoAA, pH)
+          }
+         }
+       }
+  
+      charge <- as.numeric(nterm + carg + clys + chis + casp + cglu + ctyr + ccys + cterm + pcharge)
+  
+      return(charge)
 }
 
 #' pcharge
