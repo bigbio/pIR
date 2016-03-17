@@ -145,17 +145,17 @@ loadGroupPK <- function(pkSet = "expasy"){
     pkValues <- c()
     if(pkSet == "expasy"){
         pkValues <- data.frame(key=c("R", "D", "C", "E", "H", "K", "Y"),
-                                   c(-12.0, 4.05, 9.0, 4.45, -5.98, -10.0, 10.0))
+                                   c(12.0, 4.05, 9.0, 4.45, 5.98, 10.0, 10.0))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "skoog"){
         pkValues <- data.frame(key=c("R",   "D",  "C",  "E",   "H",   "K",    "Y"),
-                                   c(-12.48, 3.86, 8.33, 4.25, -6.0, -10.5299, 10.07))
+                                   c(12.48, 3.86, 8.33, 4.25, 6.0, 10.5299, 10.07))
         colnames(pkValues) <- c("key", "value")
     }
     if(pkSet == "calibrated"){
         pkValues <- data.frame(key=c("R", "D", "C", "E", "H", "K", "Y"),
-                                   c(-12.0, 4.05, 9.0, 4.45, -5.98, -10.0, 10.0))
+                                   c(12.0, 4.05, 9.0, 4.45, 5.98, 10.0, 10.0))
         colnames(pkValues) <- c("key", "value")
     }
     return(pkValues)
