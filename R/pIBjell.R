@@ -7,9 +7,8 @@
 computeAllBjellValues <- function(seq){
     expasy     <- pIBjell(sequence = seq, pkSetMethod = "expasy")
     skoog      <- pIBjell(sequence = seq, pkSetMethod = "skoog")
-    calibrated <- pIBjell(sequence = seq, pkSetMethod =  "calibrated")
-    bjell      <- pIBjell(sequence = seq, pkSetMethod = "bjell")
-    values <- data.frame(method=c("expasy", "skoog","calibrated", "bjell"), values=c(expasy, skoog, calibrated, bjell))
+    calibrated <- pIBjell(sequence = seq, pkSetMethod = "calibrated")
+    values <- data.frame(method=c("expasy", "skoog","calibrated"), values=c(expasy, skoog, calibrated))
     colnames(values) <- c("method", "values")
     return(values)
 
@@ -20,42 +19,41 @@ computeAllBjellValues <- function(seq){
 #' This function compute the isoelectric point of ami anocid sequences using the Bjell method
 #' @param sequence The amino acid sequence
 #' @param pKSetMethod The pK set method
+#' @param gamma The parameter to fix precision
 #'
-pIBjell <- function(sequence, pkSetMethod = "expasy"){
+pIBjell <- function(sequence, pkSetMethod = "expasy", gamma=0.001){
     sequence <- reformat(seq= sequence)
     NtermPK <- loadNTermPK(pkSet = pkSetMethod)
     CtermPK <- loadCTermPK(pkSet= pkSetMethod)
     GroupPK <- loadGroupPK(pkSet = pkSetMethod)
 
-    pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
-    # Average protein pI is 6.5 so we increase the probability.
-    lastCharge <- 0
-    gamma      <- 0.00001
-    this.step = 3.5
-
-    repeat {
-        charge <- getcharge(sequence = sequence, NTermPK = NtermPK, CTermPK = CtermPK, GroupPK = GroupPK, pH = pH)
-        if( charge > 0){
-            pH <- pH + this.step
-        }else{
-            pH <- pH - this.step
-        }
-        this.step = this.step/2
-        error <- abs(charge-lastCharge)
-        lastCharge <- charge
-        if(error < gamma){
-            break;
-        }
+    pH = 7.0
+    
+    #compute pI at reducied pH range 0.0-7.0. It avoid to
+    #use the whole pH range.
+    if(getcharge(sequence, NtermPK, CtermPK, GroupPK, pH) < 0){
+      pHs <- seq(0, 7, gamma)
+      charges <- getcharge(sequence, NtermPK, CtermPK, GroupPK, pHs)
+      return(pHs[which.min(abs(charges))])
     }
-    pH <-specify_decimal(pH,4)
-    #print(pH)
-    return (pH)
+    
+    #compute pI at reducied pH range 7.0-14.0. It avoid to
+    #use the whole pH range.
+    if(getcharge(sequence,NtermPK, CtermPK, GroupPK, pH) > 0){
+      pHs <- seq(7, 14, gamma)
+      charges <- getcharge(sequence,NtermPK, CtermPK, GroupPK, pHs)
+      return(pHs[which.min(abs(charges))])
+    }
+    
+    #them return current pH value
+    return(pH) 
 }
 
 #' pIBjellMultipleSequences
 #'
 #' This function compute the isoelectric point of sequences contained into dataframe using the Bjell method.
-#' It return the same dataframe with predicted pI value binded.
+#' At lest, a column named "sequence" is expected.
+#' It return a dataframe with predicted pI value binded.
 #' 
 #' 
 #' @param df The dataframe with sequences
@@ -64,49 +62,16 @@ pIBjell <- function(sequence, pkSetMethod = "expasy"){
 
 pIBjellMultipleSequences <- function(sequences = df, pkSetMethod = "expasy"){
   
-  NtermPK <- loadNTermPK(pkSet = pkSetMethod)
-  CtermPK <- loadCTermPK(pkSet= pkSetMethod)
-  GroupPK <- loadGroupPK(pkSet = pkSetMethod)
+  #getting column with sequences
+  data <- subset(sequences, select=c("sequence"))
   
-  pIvalues <- vector() # new empty vector
+  #compute pI
+  data <- mdply(data, function(sequence) { pIBjell(sequence = sequence, pkSetMethod) })
   
-  for(i in 1:nrow(sequences)) {
-      
-      sequence <- reformat(seq = sequences$sequence[i])
-      
-      pH  <- 6.5         # Starting point pI = 6.5 - theoretically it should be 7, but
-      # Average protein pI is 6.5 so we increase the probability.
-      lastCharge <- 0
-      gamma      <- 0.0001
-      this.step = 3.5
-      
-      repeat {
-        charge <- getcharge(sequence = sequence, NTermPK = NtermPK, CTermPK = CtermPK, GroupPK = GroupPK, pH = pH)
-        if( charge > 0){
-          pH <- pH + this.step
-        }else{
-          pH <- pH - this.step
-        }
-        this.step = this.step/2
-        error <- abs(charge-lastCharge)
-        lastCharge <- charge
-        if(error < gamma){
-          break;
-        }
-      }
-      
-      pH <- specify_decimal(pH,4)
-      #print(pH)
-      pIvalues[[i]] <- pH #add new pI values to vector
+  #rename column added with pK set name
+  names(data)[names(data)=="V1"] <- c(pkSetMethod)
     
-  }
-    #adding new column with predicted values
-    sequences$predicted <- pIvalues
-    
-    #rename column added with pK set name
-    names(sequences)[names(sequences)=="predicted"] <- c(pkSetMethod)
-    
-    return(sequences)
+    return(data)
   
 }
 
@@ -125,57 +90,47 @@ pIBjellMultipleSequences <- function(sequences = df, pkSetMethod = "expasy"){
 getcharge <- function (sequence, NTermPK, CTermPK, GroupPK, pH){
 
     #sequence <- toupper(sequence)
-
-    aaV <- strsplit(sequence, "", fixed = TRUE)
-    aaNTerm <- aaV[[1]][1]
-    aaCTerm <- aaV[[1]][nchar(sequence)]
-
-
-    pHpK <- 0.0
-    this.FoRmU <- 0.0
-
+    
+    lev <- c("n","m","p","R","H","K","D","E","C","Y")  #here the entries that will be considered (PTMs, aa basic, aa acid)
+   
+    aaTable <- table(factor(prot <- strsplit(sequence, "")[[1]], levels = lev))
+    
+    aaNTerm <- prot[1]
+    aaCTerm <- prot[length(prot)]
+    
     #To evaluate N-terminal contribution
     if(aaNTerm=="n" || aaNTerm=="m"){       #n:Acetylation, m:Acetylation+Oxidation
-        pHpK <- pH - 0
-        this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
-
-    } else if(aaNTerm=="o"){       #o: Oxidation, it no modifies N-terminal contribution
-        pHpK <- pH - retrievePKValue(aaV[[1]][2], NTermPK) #to eliminate PTM (neutral) to compute N-terminal contribution
-        this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
-
-    } else {
-        pHpK <- pH - retrievePKValue(aaNTerm, NTermPK)          #otherwise
-        this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
+      nterm <- 0.0
+    } else if(aaNTerm=="o"){ 
+      nterm <- (1/(1 +  10^(1 *  (pH - retrievePKValue(prot[2], NTermPK)))))   #if Met oxidated in N-terminal position avoid "o".
+    }else{
+      nterm <- (1/(1 +  10^(1 *  (pH - retrievePKValue(aaNTerm, NTermPK)))))   #otherwise
     }
 
-
-
-    pHpK <- retrievePKValue(aaCTerm, CTermPK) - pH
-    this.FoRmU = this.FoRmU + (-1.0 / (1.0 + (10.0^pHpK)))
-
-
-    for(i in 1:nchar(sequence)) {
-
-        aa <- aaV[[1]][i]
-
-        if (!is.na(retrievePKValue(aa, GroupPK))){
-            valuepK <- retrievePKValue(aa, GroupPK)
-
-            if (valuepK < 0.0) {
-                pHpK <- pH + valuepK;
-                this.FoRmU <- this.FoRmU + (1.0 / (1.0 + (10.0^pHpK)))
-            } else {
-                pHpK <- valuepK - pH;
-                this.FoRmU <- this.FoRmU + (-1.0 / (1.0 + (10.0^pHpK)))
-            }
+    #To evaluate C-terminal contribution
+    cterm <- (-1/(1 + 10^(-1 * (pH - retrievePKValue(aaCTerm, CTermPK)))))
+    
+    carg <- aaTable["R"] * (1/(1 + 10^(1 * (pH - retrievePKValue("R", GroupPK)))))
+    chis <- aaTable["H"] * (1/(1 + 10^(1 * (pH - retrievePKValue("H", GroupPK)))))
+    clys <- aaTable["K"] * (1/(1 + 10^(1 * (pH - retrievePKValue("K", GroupPK)))))
+    casp <- aaTable["D"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("D", GroupPK)))))
+    cglu <- aaTable["E"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("E", GroupPK)))))
+    ccys <- aaTable["C"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("C", GroupPK)))))
+    ctyr <- aaTable["Y"] * (-1/(1 + 10^(-1 * (pH - retrievePKValue("Y", GroupPK)))))
+    
+    #computing phosphorylation contribution
+    pcharge <- 0
+    if(grepl(pattern = "p", x=sequence, fixed = "TRUE")){  
+      for (i in 1:length(prot)){
+        if(prot[i] == "p"){              
+          phosphoAA <- prot[i+1]         #getting the next aminoacid (Phospho) in the sequence...
+          pcharge = pcharge + pchargePhosphorylation(phosphoAA, pH)
         }
-
-        if(aa == "p"){            #computing phosphorylation contribution
-            aa <- aaV[[1]][i+1]     #getting the next amino acid in the sequence...
-            this.FoRmU = this.FoRmU + pchargePhosphorylation(aa, pH)
-        }
-
+      }
     }
-    return (this.FoRmU)
+    
+    charge <- as.numeric(nterm + carg + clys + chis + casp + cglu + ctyr + ccys + cterm + pcharge)
+    
+    return(charge)
 }
 
