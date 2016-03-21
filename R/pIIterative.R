@@ -49,17 +49,17 @@ pIIterative <- function(sequence, pkSetMethod = "solomon", gamma = 0.001){
   
   #compute pI at reducied pH range 0.0-7.0. It avoid to
   #use the whole pH range.
-  if(computeCharge(sequence, pH, pkSet) < 0){
+  if(chargeAtPH(sequence, pH, pkSet) < 0){
     pHs <- seq(0, 7, gamma)
-    charges <- computeCharge(sequence, pHs, pkSet)
+    charges <- chargeAtPH(sequence, pHs, pkSet)
     return(pHs[which.min(abs(charges))])
   }
   
   #compute pI at reducied pH range 7.0-14.0. It avoid to
   #use the whole pH range.
-  if(computeCharge(sequence, pH, pkSet) > 0){
+  if(chargeAtPH(sequence, pH, pkSet) > 0){
     pHs <- seq(7, 14, gamma)
-    charges <- computeCharge(sequence, pHs, pkSet)
+    charges <- chargeAtPH(sequence, pHs, pkSet)
     return(pHs[which.min(abs(charges))])
   }
   
