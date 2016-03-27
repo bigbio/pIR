@@ -1,5 +1,5 @@
-# dafaultTrainData
-# This function acces to the data to trace train the SVM method
+#' defaultPeptideTrainData
+#' This function acces to the data to trace train the SVM method
 
 defaultPeptideTrainData <- function(){
     filePath <- system.file("extdata", "svmDataDefault.csv", package = "pIR")
@@ -7,105 +7,156 @@ defaultPeptideTrainData <- function(){
     return(data)
 }
 
-loadDefaultModel <- function(){
+
+#' loadSVMModel
+#'
+#' This function acces to a SVM model trained
+#' @param model The model to be loaded
+#' 
+#'
+loadSVMModel <- function(model = "default"){
+    
+  if(model=="default"){
     svm <- load("data/svmModelDefault.rda")
     return(svm)
-}
-
-
-# This function transform a new data (dataframe) using center and scale transformation.
-# This transformation is necesary previous to use svm method.
-
-transformData <- function(instances = instance, defaultData = TRUE, trainingSet = dataframe){
-    
-  if(defaultData){
-   
-    #load default dataset
-    svmDataDefault <- load("data/svmDataSetDefault.rda")
-    
-    #retrive attributes from default dataset. It must be equal to new instance attribute.
-    peptides_propeties <- subset(data, select=c("calibrated", "expasy", "aaindex"))
-    
-    #create preProcess object
-    preObject <- preProcess(peptides_propeties, method = c("center", "scale"))
-    
-    #process new instance using default(training) setting
-    preData <- predict(preObject, newdata = instances)
-    
-  }else{
-    
-    #read varibles from dataframe
-    peptides_propeties <- subset(trainingSet, select=c("calibrated", "expasy", "aaindex"))
-    
-    #create preProcess object
-    preObject <- preProcess(peptides_propeties, method = c("center", "scale"))
-    
-    #process new instance using default(training) setting
-    preData <- predict(preObject, newdata = instances)
-    
   }
-
-    return(preData)
+  if(model=="heller"){
+    svm <- load("data/svmModelHeller.rda")
+    return(svm)
+  }
+  if(model=="branca"){
+    svm <- load("data/svmModelBranca.rda")
+    return(svm)
+  }
+  #otherwise return default trained model
+  svm <- load("data/svmModelDefault.rda")
+  return(svm)
 }
 
 
-# This function predict the pI from multiple sequences contained into dataframe.
 
-pISVMsequences <- function(dataframe = dataframe, defaultModel = TRUE){
+#' transformData
+#' 
+#' This function transform a new data (dataframe) using center and scale transformation.
+#' This transformation is necesary previous to use svm method.
+#' 
+#' @param instances The data to be transformed
+#' @param defaultTrainingSet A flag to get the training set used in the transformation (if TRUE, default training set will be used)
+#' @param trainingSet The training set used to apply transformation.
+#' 
+#' @details If trainingSet flag is not "default", "heller" or "branca", the current data will be used to apply the transformation requeried
+#' @details before use a SVM model, the set supply must contains the following variables: calibrated, expasy and aaindex.
+#'
+transformData <- function(instances = instance, trainingSet = "default"){
+    
+  if(trainingSet=="default"){
+    #load default dataset
+    svmData <- load("data/svmDataSetDefault.rda")
+    
+  }else if(trainingSet=="heller"){
+    #load heller dataset
+    svmData <- load("data/svmHellerDataSet.rda")
+    
+  }else if(trainingSet=="branca"){
+    #load branca dataset
+    svmData <- load("data/svmBrancaDataSet.rda")
+    
+  }else if(trainingSet=="current"){
+    #otherwise, use the provided dataset to apply transformation...
+    data <- instances
+  }
   
-    #read varibles from dataframe
-    sequences_propeties <- subset(dataframe, select=c("calibrated", "expasy", "aaindex"))
+   #retrive attributes from dataset. It must be equal to new instance attributes.
+   peptides_propeties <- subset(data, select=c("calibrated", "expasy", "aaindex"))
   
-    #processing data...requeried previous to use svm model
-    processedData <- transformData(instances = sequences_propeties, defaultData = FALSE, trainingSet = dataframe)
+   #create preProcess object
+   preObject <- preProcess(peptides_propeties, method = c("center", "scale"))
   
-   if(defaultModel){
+   #process new instances using (trainingSet) option
+   preData <- predict(preObject, newdata = instances)
+    
+   return(preData)
+}
+
+
+
+
+#' pISVMsequences
+#' 
+#' This function predict the pI from multiple sequences contained into dataframe.
+#' 
+#' @param df The dataset with sequences. It must contains the variables: "calibrated", "expasy" and "aaindex".
+#' @param model The SVM-based model to be used in the prediction (use "default", "heller" or "branca" options)
+#' @param newModel A flag enabling the posibility to choose a new model to be used.
+#' 
+#' @details By default, this method use a svm-model from the setting of the "model" parameter and keeping
+#' @details the parameter "newModel" = FALSE. However, it is possible to build a new svm model from the current dataset
+#' @details setting "newModel"=TRUE. To do it, The input dataframe must contains the variables requeried to train
+#' @details a svm model: "calibrated", "expasy" and "aaindex".
+#'
+pISVMsequences <- function(df = dataframe, model = "default", newModel = FALSE){
+  
+   if(!newModel){
     
     #loading default svm model
-    svm <- loadDefaultModel()
+    svm <- loadSVMModel(model)
+    
+    #processing data...requeried previous to use svm model
+    processedData <- transformData(instances = df, trainingSet = model)
     
     #predicting pI with svm model
      pI <- predict(svmModel, newdata = processedData)
     
     #build dataframe with new pI values predicted
-    dataframe$pIsvm <- as.vector(pI, mode = "any")
+    df$pIsvm <- as.vector(pI, mode = "any")
     
   }else{
     
     #build new svm model from current data
-    svmModel <- svmPIData(data = dataframe)
+    svmModel <- svmPIData(data = df)
+    
+    #read varibles from dataframe
+    sequences_propeties <- subset(df, select=c("calibrated", "expasy", "aaindex"))
+    
+    #processing data...requeried previous to use svm model
+    processedData <- transformData(instances = sequences_propeties, trainingSet = "current")
     
     #predicting pI with svm model
     pI <- predict(svmModel, newdata = processedData)
     
     #build dataframe with new pI values predicted
-    dataframe$pIsvm <- as.vector(pI, mode = "any")
+    df$pIsvm <- as.vector(pI, mode = "any")
     
   }
   
-  return(dataframe)
+  return(df)
 }
 
 
-# This function predict the pI from any sequence using SVM model.
-# Use as > pI <- pISVMpeptide("NSENATDANQVAHMYQSQDQVK")
-# value  > pI = 3.766294
-
-pISVMpeptide <- function(sequence){
-
+#' pISVMpeptide
+#' 
+#' This function predict the pI of a single sequence.
+#' 
+#' @param sequence The sequence to be used
+#' @param model The SVM-based model to be used in the prediction (use "default", "heller" or "branca" options)
+#'
+#'  
+pISVMpeptide <- function(sequence, model = "default"){
+    #computing the features requeried to vectorize the peptide/protein
     aaindex      <- aaIndex(sequence = sequence)
     calibrated   <- pIBjell(sequence = sequence, pkSetMethod = "calibrated")
     expasy       <- pIBjell(sequence = sequence, pkSetMethod = "expasy")
+    
+    #loading svm-model
+    svm  <- loadSVMModel(model = model)
 
-    svmModel   <- loadDefaultModel()
-
-    #Building sequence as dataframe
+    #Building sequence as a dataframe
     seq <- data.frame(calibrated, expasy, aaindex)
 
-    #pre-processing new instance using same training data processing
-    seq <- transformData(seq)
+    #pre-processing new instance using the same model training-dataset processing
+    seq <- transformData(instances = seq, trainingSet = model)
 
-    pI <- predict(svmModelDefault, newdata = seq)
+    pI <- predict(svmModel, newdata = seq)
     return(pI)
 }
 
@@ -154,12 +205,15 @@ svmBuildProteinData <- function(loadData = FALSE, method = "svmRadial", numberIt
 
 #' svmPIBuildSVMData
 #'
-#' This function take a data frame in the way of: sequence pIExp
+#' This function take a data frame in the way of: sequence pIExp. It return a dataframe with features to train a svm model
 #' @param originalData The original dra frame
 #'
-svmPIBuildSVM <- function(originalData){
+svmPIBuildData <- function(originalData){
 
     data <- originalData
+    
+    colnames(data) <-c("sequence", "pIExp")
+    
     #Add all the bjell methods and pk Sets
     data <- mdply(data, function(sequence, pIExp) { pIBjell(sequence = sequence, pkSetMethod = "calibrated") })
 
