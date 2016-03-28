@@ -64,7 +64,7 @@ NULL
 #' @name proteins
 #' @usage data(proteins)
 #' @format A data frame with 1041 rows and 19 variables
-NULL
+
 
 #' pIBenchmark
 #'
@@ -214,8 +214,8 @@ computePIvalues <- function(originalData){
   #colnames(data) <-c("sequence", "pIExp", "calibrated", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "cofactor")
   
   #Add SVM pI data
-  #warning: the dataframe argument must containt the attributes: bjell, expasy and aaindex.
-  data <- pISVMsequences(dataframe = data, defaultModel = TRUE) 
+  #warning: the dataframe argument must containt the attributes: calibrated, expasy and aaindex.
+  data <- pISVMsequences(df = data, model = "default") 
   
   colnames(data) <-c("sequence", "pIExp", "calibrated", "expasy", "skoog", "aaindex", "solomon", "rodwell", "emboss", "lehninger", "grimsley", "patrickios", "DtaSelect", "toseland", "thurlkill", "nozaki_tanford", "pISVM")
   
