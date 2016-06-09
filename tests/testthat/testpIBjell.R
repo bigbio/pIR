@@ -6,18 +6,14 @@ test_that("Test of the Bjellvist Methods.. ", {
     # Test for the salomon pkSet
     seq <- "AGAAPYVQAFDSLLAGPVAE"
 
+    # Test for expasy pKSet
     expect_equal(pIBjell(sequence = seq, pkSetMethod = "expasy"), 3.666)
 
     # Test for skoog pKSet
     expect_equal(pIBjell(sequence = seq, pkSetMethod = "skoog"), 2.935)
 
-<<<<<<< HEAD
+    # Test for calibrated pKSet
     expect_equal(pIBjell(sequence = seq, pkSetMethod = "calibrated"), 4.0852)
-=======
-    expect_equal(pIBjell(sequence = seq, pkSetMethod = "calibrated"), 4.085)
-
-    # Test for skoog pKSet
-    #expect_equal(pIBjell(sequence = seq, pkSetMethod = "bjell"), 3.0418)
->>>>>>> e5245c9c79dacc00e60d0f96f08087f6d0733162
+    
 }
 )
