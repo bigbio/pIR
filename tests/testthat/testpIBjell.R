@@ -13,7 +13,7 @@ test_that("Test of the Bjellvist Methods.. ", {
     expect_equal(pIBjell(sequence = seq, pkSetMethod = "skoog"), 2.935)
 
     # Test for calibrated pKSet
-    expect_equal(pIBjell(sequence = seq, pkSetMethod = "calibrated"), 4.0852)
+    expect_equal(pIBjell(sequence = seq, pkSetMethod = "calibrated"), 4.085)
     
 }
 )
