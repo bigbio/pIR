@@ -17,19 +17,23 @@ defaultPeptideTrainData <- function(){
 loadSVMModel <- function(model = "default"){
     
   if(model=="default"){
-    svm <- load("data/svmModelDefault.rda")
+    filePath <- system.file("extdata", "svmModelDefault.rda", package = "pIR")
+    svm <- load(file = filePath, .GlobalEnv)
     return(svm)
   }
   if(model=="heller"){
-    svm <- load("data/svmModelHeller.rda")
+    filePath <- system.file("extdata", "svmModelHeller.rda", package = "pIR")
+    svm <- load(file = filePath, .GlobalEnv)
     return(svm)
   }
   if(model=="branca"){
-    svm <- load("data/svmModelBranca.rda")
+    filePath <- system.file("extdata", "svmModelBranca.rda", package = "pIR")
+    svm <- load(file = filePath, .GlobalEnv)
     return(svm)
   }
   #otherwise return default trained model
-  svm <- load("data/svmModelDefault.rda")
+  filePath <- system.file("extdata", "svmModelDefault.rda", package = "pIR")
+  svm <- load(file = filePath, .GlobalEnv)
   return(svm)
 }
 
@@ -51,15 +55,18 @@ transformData <- function(instances = instance, trainingSet = "default"){
     
   if(trainingSet=="default"){
     #load default dataset
-    svmData <- load("data/svmDataSetDefault.rda")
+    filePath <- system.file("extdata", "svmDataSetDefault.rda", package = "pIR")
+    load(filePath)
     
   }else if(trainingSet=="heller"){
     #load heller dataset
-    svmData <- load("data/svmHellerDataSet.rda")
+    filePath <- system.file("extdata", "svmHellerDataSet.rda", package = "pIR")
+    load(filePath)
     
   }else if(trainingSet=="branca"){
     #load branca dataset
-    svmData <- load("data/svmBrancaDataSet.rda")
+    filePath <- system.file("extdata", "svmBrancaDataSet.rda", package = "pIR")
+    load(filePath)
     
   }else if(trainingSet=="current"){
     #otherwise, use the provided dataset to apply transformation...
