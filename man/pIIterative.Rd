@@ -4,12 +4,14 @@
 \alias{pIIterative}
 \title{pIIterative}
 \usage{
-pIIterative(sequence, pkSetMethod = "solomon")
+pIIterative(sequence, pkSetMethod = "solomon", gamma = 0.001)
 }
 \arguments{
 \item{sequence}{The amino acid sequence to be sue to compute the Isoelectric point}
 
 \item{pkSetMethod}{The pK set to be used}
+
+\item{gamma}{The parameter to fix precision}
 }
 \description{
 This function compute the isoelectric point of a sequence using the Iterative method

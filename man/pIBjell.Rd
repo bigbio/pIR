@@ -4,10 +4,12 @@
 \alias{pIBjell}
 \title{pIBjell}
 \usage{
-pIBjell(sequence, pkSetMethod = "expasy")
+pIBjell(sequence, pkSetMethod = "expasy", gamma = 0.001)
 }
 \arguments{
 \item{sequence}{The amino acid sequence}
+
+\item{gamma}{The parameter to fix precision}
 
 \item{pKSetMethod}{The pK set method}
 }

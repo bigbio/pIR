@@ -13,6 +13,7 @@ pIBjellMultipleSequences(sequences = df, pkSetMethod = "expasy")
 }
 \description{
 This function compute the isoelectric point of sequences contained into dataframe using the Bjell method.
-It return the same dataframe with predicted pI value binded.
+At lest, a column named "sequence" is expected.
+It return a dataframe with predicted pI value binded.
 }
 
