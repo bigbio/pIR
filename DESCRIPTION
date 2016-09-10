@@ -11,11 +11,9 @@ Description: This package provides functionalities to analyze different
     peptides and proteins.
 License: Apache 2
 Imports:
-    ggplot2,
     lsr,
-    corrplot,
-    caret,
     plyr
+Depends:caret, kernlab, ggplot2, corrplot
 Suggests:
     testthat,
     BiocStyle,
