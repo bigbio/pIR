@@ -10,6 +10,7 @@ install:
   - ./travis-tool.sh install_bioc BiocInstaller
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh r_install knitr
+  - ./travis-tool.sh r_install kernlab
 
 script: ./travis-tool.sh run_tests
 
