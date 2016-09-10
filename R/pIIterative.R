@@ -52,7 +52,8 @@ pIIterative <- function(sequence, pkSetMethod = "solomon", gamma = 0.001){
   if(chargeAtPH(sequence, pH, pkSet) < 0){
     pHs <- seq(0, 7, gamma)
     charges <- chargeAtPH(sequence, pHs, pkSet)
-    return(pHs[which.min(abs(charges))])
+    pH <- pHs[which.min(abs(charges))]
+    return(specify_decimal(pH, 4))
   }
   
   #compute pI at reducied pH range 7.0-14.0. It avoid to
@@ -60,7 +61,8 @@ pIIterative <- function(sequence, pkSetMethod = "solomon", gamma = 0.001){
   if(chargeAtPH(sequence, pH, pkSet) > 0){
     pHs <- seq(7, 14, gamma)
     charges <- chargeAtPH(sequence, pHs, pkSet)
-    return(pHs[which.min(abs(charges))])
+    pH <- pHs[which.min(abs(charges))]
+    return(specify_decimal(pH, 4))
   }
   
     #them return current pH value

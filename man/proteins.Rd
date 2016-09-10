@@ -2,11 +2,22 @@
 % Please edit documentation in R/pIBenchmark.R
 \docType{data}
 \name{proteins}
+\alias{pIBenchmark}
 \alias{proteins}
 \title{Isoelectric poit of a set of proteins from PID-DB}
-\format{A data frame with 1041 rows and 19 variables}
+\format{A data frame with 1041 rows and 19 variables
+pIBenchmark
+
+This function get the original file with peptides and proteins and do the complete benchmark. At the end it generates a file with all the comparison}
 \usage{
 data(proteins)
+}
+\arguments{
+\item{pepFile}{the peptide file}
+
+\item{protFile}{the protein file}
+
+\item{cols}{number of columns by chart}
 }
 \description{
 This dataset contains more than 1000 proteins with the experimental isoelectric point and the predicted pI using different methods.
