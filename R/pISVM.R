@@ -355,13 +355,12 @@ aaIndex <- function(sequence){
     oldw <- getOption("warn")
     options(warn = -1)
 
-    temp <- aaTable*aaZimmermanDes
+    temp <- as.numeric(aaTable) * aaZimmermanDes$value
 
     options(warn = oldw)
-    zimm <- pKNTerm + pKCTerm + sum(temp$value)
+    zimm <- pKNTerm + pKCTerm + sum(temp)
 
     zimm = zimm/(length(prot)+2)
 
     return (as.numeric(zimm))
 }
-
