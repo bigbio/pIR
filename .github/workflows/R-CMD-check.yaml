@@ -20,7 +20,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: '4.0'}
           - {os: ubuntu-latest, r: '4.1'}
           - {os: ubuntu-latest, r: '4.2'}
           - {os: ubuntu-latest, r: '4.3'}
@@ -47,6 +46,8 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+
+      - uses: r-lib/actions/setup-tinytex@v2
 
       - uses: r-lib/actions/check-r-package@v2
         with:

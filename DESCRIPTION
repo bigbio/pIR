@@ -14,7 +14,7 @@ Imports:
     lsr,
     plyr
 Depends:
-    R (>= 4.0),
+    R (>= 4.1),
     caret,
     kernlab,
     ggplot2,
