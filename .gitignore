@@ -1,3 +1,14 @@
 .Rproj.user
 .Rhistory
 .RData
+
+# LaTeX / vignette build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*-concordance.tex
+vignettes/*.tex
+vignettes/*.pdf
