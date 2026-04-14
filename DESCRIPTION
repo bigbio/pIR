@@ -13,7 +13,12 @@ License: Apache 2
 Imports:
     lsr,
     plyr
-Depends:caret, kernlab, ggplot2, corrplot
+Depends:
+    R (>= 4.0),
+    caret,
+    kernlab,
+    ggplot2,
+    corrplot
 Suggests:
     testthat,
     BiocStyle,

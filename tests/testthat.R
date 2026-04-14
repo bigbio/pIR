@@ -1,4 +1,4 @@
 library(testthat)
 library(pIR)
-test_check("testthat")
+test_check("pIR")
 
