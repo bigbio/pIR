@@ -20,8 +20,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: '4.1'}
-          - {os: ubuntu-latest, r: '4.2'}
           - {os: ubuntu-latest, r: '4.3'}
           - {os: ubuntu-latest, r: '4.4'}
           - {os: ubuntu-latest, r: 'release'}
@@ -76,3 +74,4 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          error-on: '"error"'
