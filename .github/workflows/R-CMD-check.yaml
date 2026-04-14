@@ -48,6 +48,9 @@ jobs:
           needs: check
 
       - uses: r-lib/actions/setup-tinytex@v2
+      - name: Install TinyTeX fonts needed for vignette PDF rendering
+        run: tinytex::tlmgr_install("bera")
+        shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
