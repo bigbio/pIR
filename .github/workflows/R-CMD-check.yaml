@@ -20,8 +20,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: '4.1'}
-          - {os: ubuntu-latest, r: '4.2'}
           - {os: ubuntu-latest, r: '4.3'}
           - {os: ubuntu-latest, r: '4.4'}
           - {os: ubuntu-latest, r: 'release'}
@@ -48,11 +46,32 @@ jobs:
           needs: check
 
       - uses: r-lib/actions/setup-tinytex@v2
-      - name: Install TinyTeX fonts needed for vignette PDF rendering
-        run: tinytex::tlmgr_install("bera")
+      - name: Install LaTeX packages needed for BiocStyle vignette
+        run: |
+          tinytex::tlmgr_install(c(
+            "bera",
+            "nowidow",
+            "parnotes",
+            "titlesec",
+            "enumitem",
+            "parskip",
+            "fancyhdr",
+            "footmisc",
+            "placeins",
+            "ragged2e",
+            "changepage",
+            "xstring",
+            "caption",
+            "preprint",
+            "soul",
+            "marginfix",
+            "mathtools",
+            "framed"
+          ))
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          error-on: '"error"'
