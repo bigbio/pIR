@@ -355,7 +355,7 @@ aaIndex <- function(sequence){
     oldw <- getOption("warn")
     options(warn = -1)
 
-    temp <- as.numeric(aaTable) * aaZimmermanDes$value
+    temp <- as.vector(aaTable) * aaZimmermanDes$value
 
     options(warn = oldw)
     zimm <- pKNTerm + pKCTerm + sum(temp)
