@@ -1,3 +1,4 @@
+[![R-CMD-check](https://github.com/bigbio/pIR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bigbio/pIR/actions/workflows/R-CMD-check.yaml)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # [pIR](https://github.com/bigbio/pIR)
