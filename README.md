@@ -1,27 +1,28 @@
-[![Build Status](https://travis-ci.org/ypriverol/pIR.svg?branch=master)](https://travis-ci.org/ypriverol/pIR)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
-[pIR](https://github.com/ypriverol/pIR)
-======
+# [pIR](https://github.com/bigbio/pIR)
 
-An [R package](https://github.com/ypriverol/pIR) to analyze the isoelectric point of peptides and proteins based on experimental values and predicted using different functions. The package provides an statistical framework to analyze the correlation between predicted and expeted values, and it can be use in other contexts.
+An [R package](https://github.com/bigbio/pIR) to analyze the isoelectric point of peptides and proteins based on experimental values and predicted using different functions. The package provides a statistical framework to analyze the correlation between predicted and expected values, and it can be used in other contexts.
 
-### Installation  
+### Installation
 
-First, we need to install `devtools`:  
-
-    install.packages("devtools")
-    library(devtools)
-   
-Then we just call  
-
-    install_github("ypriverol/pIR")
-    library(pIR)
-
-##Examples
-=================
+First, we need to install `devtools`:
 
 ```R
+install.packages("devtools")
+library(devtools)
+```
 
+Then we just call:
+
+```R
+install_github("bigbio/pIR")
+library(pIR)
+```
+
+### Examples
+
+```R
 # Other different pKSets that can be selected: rodwell, emboss, lehninger, grimsley, patrickios, DtaSelect
 
 library(pIR)
@@ -29,29 +30,28 @@ seq <- "GLPRKILCAIAKKKGKCKGPLKLVCKC"
 pI <- pIIterative(sequence = seq, pkSetMethod = "solomon")
 print(pI)
 
-#The result will be 10.526
+# The result will be 10.526
 
 
-#Computing all pI values using Iterative method.
+# Computing all pI values using Iterative method.
 
-> sequence <- "AADCEVEQWDSDEPIPAK"
-> pIvalues <- computeAllIterativeValues(seq = sequence)
+sequence <- "AADCEVEQWDSDEPIPAK"
+pIvalues <- computeAllIterativeValues(seq = sequence)
 
-#The result will be...
+# The result will be...
 
-> pIvalues
-           method values
-1         solomon 3.4161
-2         rodwell 3.3749
-3          emboss 3.5322
-4       lehninger 3.3711
-5        grimsley 3.3012
-6      patrickios 3.4220
-7       DtaSelect 3.7848
-8        toseland 3.3571
-9       thurlkill 3.4784
-10 nozaki_tanford 3.6445
-
+pIvalues
+#            method values
+# 1         solomon 3.4161
+# 2         rodwell 3.3749
+# 3          emboss 3.5322
+# 4       lehninger 3.3711
+# 5        grimsley 3.3012
+# 6      patrickios 3.4220
+# 7       DtaSelect 3.7848
+# 8        toseland 3.3571
+# 9       thurlkill 3.4784
+# 10 nozaki_tanford 3.6445
 ```
 
 ### How to cite
@@ -60,7 +60,7 @@ Audain, E., Ramos, Y., Hermjakob, H., Flower, D. R., & Perez-Riverol, Y. (2015).
 
 Perez-Riverol, Y., Audain, E., Millan, A., Ramos, Y., Sanchez, A., Vizcaíno, J. A., ... & González, L. J. (2012). Isoelectric point optimization using peptide descriptors and support vector machines. Journal of proteomics, 75(7), 2269-2274. [article](https://www.researchgate.net/profile/Vladimir_Besada/publication/221825414_Isoelectric_point_optimization_using_peptide_descriptors_and_support_vector_machines/links/09e41503561f3b0787000000.pdf)
 
-### This library has been used in:
+### This library has been used in
 
 - Ramos, Y., Gutierrez, E., Machado, Y., Sánchez, A., Castellanos-Serra, L., González, L.J., Fernández-de-Cossio, J., Pérez-Riverol, Y., Betancourt, L., Gil, J. and Padrón, G., 2008. Proteomics based on peptide fractionation by SDS-free PAGE. Journal of proteome research, 7(6), pp.2427-2434. [article](https://www.researchgate.net/profile/Vladimir_Besada/publication/5431019_Proteomics_based_on_peptide_fractionation_by_SDS-free_PAGE/links/0912f50355c4ac1a82000000.pdf)
 
